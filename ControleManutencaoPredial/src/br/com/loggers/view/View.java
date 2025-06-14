@@ -123,6 +123,22 @@ public class View extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         manutencoes = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jPanel28 = new javax.swing.JPanel();
+        jPanel29 = new javax.swing.JPanel();
+        jPanel30 = new javax.swing.JPanel();
+        jPanel31 = new javax.swing.JPanel();
+        jPanel32 = new javax.swing.JPanel();
+        jPanel33 = new javax.swing.JPanel();
+        jButton12 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        jPanel34 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel38 = new javax.swing.JPanel();
+        jPanel35 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         historico = new javax.swing.JPanel();
         relatorio = new javax.swing.JPanel();
         ativo = new javax.swing.JPanel();
@@ -677,18 +693,95 @@ public class View extends javax.swing.JFrame {
 
     rootDashboard.add(ordem_servico, "ordem_servico");
 
-    manutencoes.setBackground(new java.awt.Color(204, 51, 255));
+    manutencoes.setBackground(new java.awt.Color(255, 255, 255));
+    manutencoes.setLayout(new javax.swing.BoxLayout(manutencoes, javax.swing.BoxLayout.LINE_AXIS));
 
-    javax.swing.GroupLayout manutencoesLayout = new javax.swing.GroupLayout(manutencoes);
-    manutencoes.setLayout(manutencoesLayout);
-    manutencoesLayout.setHorizontalGroup(
-        manutencoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1177, Short.MAX_VALUE)
-    );
-    manutencoesLayout.setVerticalGroup(
-        manutencoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 746, Short.MAX_VALUE)
-    );
+    jPanel28.setLayout(new java.awt.BorderLayout());
+
+    jPanel29.setLayout(new javax.swing.BoxLayout(jPanel29, javax.swing.BoxLayout.Y_AXIS));
+
+    jPanel30.setAlignmentX(0.0F);
+    jPanel30.setPreferredSize(new java.awt.Dimension(1177, 150));
+    jPanel30.setLayout(new java.awt.BorderLayout());
+
+    jPanel31.setMinimumSize(new java.awt.Dimension(0, 0));
+    jPanel31.setLayout(new java.awt.GridBagLayout());
+
+    jPanel32.setLayout(new java.awt.BorderLayout());
+
+    jPanel33.setLayout(new javax.swing.BoxLayout(jPanel33, javax.swing.BoxLayout.LINE_AXIS));
+
+    jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/botao_nova_ordem(1).png"))); // NOI18N
+    jButton12.setBorderPainted(false);
+    jButton12.setContentAreaFilled(false);
+    jButton12.setFocusPainted(false);
+    jPanel33.add(jButton12);
+
+    jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Button.png"))); // NOI18N
+    jButton14.setBorderPainted(false);
+    jButton14.setContentAreaFilled(false);
+    jButton14.setFocusPainted(false);
+    jPanel33.add(jButton14);
+
+    jPanel32.add(jPanel33, java.awt.BorderLayout.EAST);
+
+    jPanel34.setLayout(new javax.swing.BoxLayout(jPanel34, javax.swing.BoxLayout.Y_AXIS));
+
+    jLabel14.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel14.setText("Manutenções");
+    jPanel34.add(jLabel14);
+
+    jLabel15.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel15.setText("Manutenções registradas");
+    jPanel34.add(jLabel15);
+
+    jPanel32.add(jPanel34, java.awt.BorderLayout.WEST);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+    jPanel31.add(jPanel32, gridBagConstraints);
+
+    jPanel30.add(jPanel31, java.awt.BorderLayout.CENTER);
+
+    jPanel29.add(jPanel30);
+
+    jPanel28.add(jPanel29, java.awt.BorderLayout.NORTH);
+
+    jPanel38.setAlignmentX(0.0F);
+    jPanel38.setLayout(new java.awt.GridBagLayout());
+
+    jPanel35.setLayout(new javax.swing.BoxLayout(jPanel35, javax.swing.BoxLayout.LINE_AXIS));
+
+    jTable2.setBorder(javax.swing.BorderFactory.createEmptyBorder(50, 50, 50, 50));
+    jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {null, null, null, null},
+            {null, null, null, null},
+            {null, null, null, null},
+            {null, null, null, null}
+        },
+        new String [] {
+            "Title 1", "Title 2", "Title 3", "Title 4"
+        }
+    ));
+    jScrollPane4.setViewportView(jTable2);
+
+    jPanel35.add(jScrollPane4);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.weighty = 2.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+    jPanel38.add(jPanel35, gridBagConstraints);
+
+    jPanel28.add(jPanel38, java.awt.BorderLayout.CENTER);
+
+    jScrollPane3.setViewportView(jPanel28);
+
+    manutencoes.add(jScrollPane3);
 
     rootDashboard.add(manutencoes, "manutencoes");
 
@@ -862,6 +955,8 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -875,6 +970,8 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -903,7 +1000,16 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -913,7 +1019,10 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordFieldSenha;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JPanel login;
     private javax.swing.JPanel manutencoes;
