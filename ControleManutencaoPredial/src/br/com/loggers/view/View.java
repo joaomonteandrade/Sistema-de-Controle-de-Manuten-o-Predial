@@ -5,11 +5,16 @@
 package br.com.loggers.view;
 
 import br.com.loggers.controller.LoginController;
+import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import java.sql.SQLException;
+import javax.swing.BoxLayout;
+import javax.swing.UIManager;
 import raven.glasspanepopup.GlassPanePopup;
 
 
@@ -19,6 +24,7 @@ import raven.glasspanepopup.GlassPanePopup;
  */
 public class View extends javax.swing.JFrame {
 
+    public String name;
     boolean visible = false;
     public JPasswordField getjPasswordFieldSenha() {
         return jPasswordFieldSenha;
@@ -46,6 +52,7 @@ public class View extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         root = new javax.swing.JPanel();
         login = new javax.swing.JPanel();
@@ -73,7 +80,7 @@ public class View extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        nameUser = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         menu = new javax.swing.JPanel();
@@ -90,18 +97,31 @@ public class View extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         jButton8 = new javax.swing.JButton();
-        jPanel20 = new javax.swing.JPanel();
+        rootDashboard = new javax.swing.JPanel();
         ordem_servico = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel25 = new javax.swing.JPanel();
+        jPanel22 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        jPanel24 = new javax.swing.JPanel();
+        jButton11 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jPanel24 = new javax.swing.JPanel();
-        jButton11 = new javax.swing.JButton();
         jPanel19 = new javax.swing.JPanel();
+        pendenteLabel = new javax.swing.JLabel();
+        andamentoLabel = new javax.swing.JLabel();
+        finalizadoLabel = new javax.swing.JLabel();
+        AgendadaLabel = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
-        jPanel22 = new javax.swing.JPanel();
+        jPanel26 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jPanel27 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         manutencoes = new javax.swing.JPanel();
         historico = new javax.swing.JPanel();
         relatorio = new javax.swing.JPanel();
@@ -285,9 +305,9 @@ public class View extends javax.swing.JFrame {
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel3Layout.createSequentialGroup()
-            .addContainerGap(206, Short.MAX_VALUE)
+            .addContainerGap(208, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(220, Short.MAX_VALUE))
+            .addContainerGap(218, Short.MAX_VALUE))
     );
 
     login.add(jPanel3, java.awt.BorderLayout.EAST);
@@ -314,11 +334,11 @@ public class View extends javax.swing.JFrame {
     jPanel17.setPreferredSize(new java.awt.Dimension(198, 32));
     jPanel17.setLayout(new javax.swing.BoxLayout(jPanel17, javax.swing.BoxLayout.LINE_AXIS));
 
-    jLabel10.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-    jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-    jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/user-3296.png"))); // NOI18N
-    jLabel10.setText("  Técnico - Mário");
-    jPanel17.add(jLabel10);
+    nameUser.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    nameUser.setForeground(new java.awt.Color(255, 255, 255));
+    nameUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/user-3296.png"))); // NOI18N
+    nameUser.setText("  Técnico - Mário");
+    jPanel17.add(nameUser);
 
     jButton9.setBackground(new java.awt.Color(60, 137, 166));
     jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/chevron_down.png"))); // NOI18N
@@ -343,6 +363,7 @@ public class View extends javax.swing.JFrame {
     dashboard.add(header, java.awt.BorderLayout.PAGE_START);
 
     menu.setBackground(new java.awt.Color(255, 255, 255));
+    menu.setMinimumSize(new java.awt.Dimension(0, 0));
     menu.setPreferredSize(new java.awt.Dimension(263, 746));
     menu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -357,7 +378,7 @@ public class View extends javax.swing.JFrame {
 
     jLabel9.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
     jLabel9.setText("Menu");
-    jPanel11.add(jLabel9, java.awt.BorderLayout.WEST);
+    jPanel11.add(jLabel9, java.awt.BorderLayout.LINE_START);
 
     jPanel10.add(jPanel11);
 
@@ -367,7 +388,7 @@ public class View extends javax.swing.JFrame {
     jButton4.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
     jButton4.setForeground(new java.awt.Color(60, 137, 166));
     jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Chart.png"))); // NOI18N
-    jButton4.setText("Ordens de Serviço");
+    jButton4.setText("  Ordens de Serviço");
     jButton4.setBorderPainted(false);
     jButton4.setContentAreaFilled(false);
     jButton4.setFocusPainted(false);
@@ -382,7 +403,7 @@ public class View extends javax.swing.JFrame {
     jPanel12.setLayout(jPanel12Layout);
     jPanel12Layout.setHorizontalGroup(
         jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     jPanel12Layout.setVerticalGroup(
         jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,7 +417,7 @@ public class View extends javax.swing.JFrame {
 
     jButton5.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
     jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Vector.png"))); // NOI18N
-    jButton5.setText("Manutenções");
+    jButton5.setText("  Manutenções");
     jButton5.setBorderPainted(false);
     jButton5.setContentAreaFilled(false);
     jButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -410,7 +431,7 @@ public class View extends javax.swing.JFrame {
     jPanel13.setLayout(jPanel13Layout);
     jPanel13Layout.setHorizontalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     jPanel13Layout.setVerticalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,16 +445,21 @@ public class View extends javax.swing.JFrame {
 
     jButton6.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
     jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Clock.png"))); // NOI18N
-    jButton6.setText("Logs de Sistema");
+    jButton6.setText("  Logs de Sistema");
     jButton6.setBorderPainted(false);
     jButton6.setContentAreaFilled(false);
     jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    jButton6.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton6ActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
     jPanel14.setLayout(jPanel14Layout);
     jPanel14Layout.setHorizontalGroup(
         jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     jPanel14Layout.setVerticalGroup(
         jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -447,16 +473,21 @@ public class View extends javax.swing.JFrame {
 
     jButton7.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
     jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Document.png"))); // NOI18N
-    jButton7.setText("Relatórios");
+    jButton7.setText("  Relatórios");
     jButton7.setBorderPainted(false);
     jButton7.setContentAreaFilled(false);
     jButton7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    jButton7.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton7ActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
     jPanel15.setLayout(jPanel15Layout);
     jPanel15Layout.setHorizontalGroup(
         jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     jPanel15Layout.setVerticalGroup(
         jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -470,16 +501,21 @@ public class View extends javax.swing.JFrame {
 
     jButton8.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
     jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Box.png"))); // NOI18N
-    jButton8.setText("Ativos");
+    jButton8.setText("  Ativos");
     jButton8.setBorderPainted(false);
     jButton8.setContentAreaFilled(false);
     jButton8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    jButton8.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton8ActionPerformed(evt);
+        }
+    });
 
     javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
     jPanel16.setLayout(jPanel16Layout);
     jPanel16Layout.setHorizontalGroup(
         jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
     );
     jPanel16Layout.setVerticalGroup(
         jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -488,18 +524,37 @@ public class View extends javax.swing.JFrame {
 
     jPanel10.add(jPanel16);
 
-    menu.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 29, 183, 300));
+    menu.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 220, 300));
 
     dashboard.add(menu, java.awt.BorderLayout.LINE_START);
 
-    jPanel20.setLayout(new java.awt.CardLayout());
+    rootDashboard.setLayout(new java.awt.CardLayout());
 
     ordem_servico.setBackground(new java.awt.Color(255, 255, 255));
     ordem_servico.setLayout(new javax.swing.BoxLayout(ordem_servico, javax.swing.BoxLayout.Y_AXIS));
 
-    jPanel18.setPreferredSize(new java.awt.Dimension(1177, 150));
+    jPanel25.setLayout(new java.awt.BorderLayout());
 
-    jPanel23.setLayout(new java.awt.BorderLayout());
+    jPanel22.setLayout(new javax.swing.BoxLayout(jPanel22, javax.swing.BoxLayout.Y_AXIS));
+
+    jPanel18.setAlignmentX(0.0F);
+    jPanel18.setPreferredSize(new java.awt.Dimension(1177, 150));
+    jPanel18.setLayout(new java.awt.BorderLayout());
+
+    jPanel23.setMinimumSize(new java.awt.Dimension(0, 0));
+    jPanel23.setLayout(new java.awt.GridBagLayout());
+
+    jPanel20.setLayout(new java.awt.BorderLayout());
+
+    jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/botao_nova_ordem.png"))); // NOI18N
+    jButton11.setBorderPainted(false);
+    jButton11.setContentAreaFilled(false);
+    jButton11.setFocusPainted(false);
+    jPanel24.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
+
+    jPanel20.add(jPanel24, java.awt.BorderLayout.EAST);
 
     jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.Y_AXIS));
 
@@ -511,79 +566,116 @@ public class View extends javax.swing.JFrame {
     jLabel12.setText("Progresso e organização das ordens de serviço");
     jPanel8.add(jLabel12);
 
-    jPanel23.add(jPanel8, java.awt.BorderLayout.WEST);
+    jPanel20.add(jPanel8, java.awt.BorderLayout.WEST);
 
-    jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+    jPanel23.add(jPanel20, gridBagConstraints);
 
-    jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/botao_nova_ordem.png"))); // NOI18N
-    jButton11.setBorderPainted(false);
-    jButton11.setContentAreaFilled(false);
-    jButton11.setFocusPainted(false);
-    jPanel24.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
+    jPanel18.add(jPanel23, java.awt.BorderLayout.CENTER);
 
-    jPanel23.add(jPanel24, java.awt.BorderLayout.LINE_END);
+    jPanel22.add(jPanel18);
 
-    javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-    jPanel18.setLayout(jPanel18Layout);
-    jPanel18Layout.setHorizontalGroup(
-        jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel18Layout.createSequentialGroup()
-            .addGap(50, 50, 50)
-            .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, 1127, Short.MAX_VALUE))
-    );
-    jPanel18Layout.setVerticalGroup(
-        jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(jPanel18Layout.createSequentialGroup()
-            .addGap(50, 50, 50)
-            .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-    );
+    jPanel19.setAlignmentX(0.0F);
+    jPanel19.setMinimumSize(new java.awt.Dimension(0, 0));
+    jPanel19.setPreferredSize(new java.awt.Dimension(1177, 200));
+    jPanel19.setLayout(new java.awt.GridBagLayout());
 
-    ordem_servico.add(jPanel18);
+    pendenteLabel.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+    pendenteLabel.setForeground(new java.awt.Color(255, 255, 255));
+    pendenteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/pendentes.png"))); // NOI18N
+    pendenteLabel.setText("<html><body style='text-align: center'>0<br>Pendentes");
+    pendenteLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 35);
+    jPanel19.add(pendenteLabel, gridBagConstraints);
 
-    jPanel19.setPreferredSize(new java.awt.Dimension(1177, 150));
+    andamentoLabel.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+    andamentoLabel.setForeground(new java.awt.Color(255, 255, 255));
+    andamentoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/em_andamento.png"))); // NOI18N
+    andamentoLabel.setText("<html><body style='text-align: center'>0<br>Em andamento");
+    andamentoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 35);
+    jPanel19.add(andamentoLabel, gridBagConstraints);
 
-    javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-    jPanel19.setLayout(jPanel19Layout);
-    jPanel19Layout.setHorizontalGroup(
-        jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1177, Short.MAX_VALUE)
-    );
-    jPanel19Layout.setVerticalGroup(
-        jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 149, Short.MAX_VALUE)
-    );
+    finalizadoLabel.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+    finalizadoLabel.setForeground(new java.awt.Color(255, 255, 255));
+    finalizadoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/finalizados.png"))); // NOI18N
+    finalizadoLabel.setText("<html><body style='text-align: center'>0<br>Finalizadas");
+    finalizadoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 35);
+    jPanel19.add(finalizadoLabel, gridBagConstraints);
 
-    ordem_servico.add(jPanel19);
+    AgendadaLabel.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+    AgendadaLabel.setForeground(new java.awt.Color(255, 255, 255));
+    AgendadaLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/agendados.png"))); // NOI18N
+    AgendadaLabel.setText("<html><body style='text-align: center'>0<br>Agendadas");
+    AgendadaLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    jPanel19.add(AgendadaLabel, gridBagConstraints);
 
-    jPanel21.setPreferredSize(new java.awt.Dimension(1177, 400));
+    jPanel22.add(jPanel19);
 
-    javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
-    jPanel21.setLayout(jPanel21Layout);
-    jPanel21Layout.setHorizontalGroup(
-        jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1177, Short.MAX_VALUE)
-    );
-    jPanel21Layout.setVerticalGroup(
-        jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 399, Short.MAX_VALUE)
-    );
+    jPanel21.setAlignmentX(0.0F);
+    jPanel21.setPreferredSize(new java.awt.Dimension(1227, 130));
+    jPanel21.setLayout(new java.awt.BorderLayout());
 
-    ordem_servico.add(jPanel21);
+    jPanel26.setLayout(new javax.swing.BoxLayout(jPanel26, javax.swing.BoxLayout.Y_AXIS));
 
-    javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-    jPanel22.setLayout(jPanel22Layout);
-    jPanel22Layout.setHorizontalGroup(
-        jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1177, Short.MAX_VALUE)
-    );
-    jPanel22Layout.setVerticalGroup(
-        jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 46, Short.MAX_VALUE)
-    );
+    jLabel10.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+    jLabel10.setText("Notificações recentes");
+    jLabel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 50, 15, 1));
+    jPanel26.add(jLabel10);
 
-    ordem_servico.add(jPanel22);
+    jLabel13.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Document.png"))); // NOI18N
+    jLabel13.setText("Nenhuma notificação recente");
+    jLabel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 50, 1, 1));
+    jPanel26.add(jLabel13);
 
-    jPanel20.add(ordem_servico, "ordem_servico");
+    jPanel21.add(jPanel26, java.awt.BorderLayout.PAGE_START);
+
+    jPanel22.add(jPanel21);
+
+    jPanel25.add(jPanel22, java.awt.BorderLayout.NORTH);
+
+    jPanel27.setAlignmentX(0.0F);
+    jPanel27.setLayout(new java.awt.GridBagLayout());
+
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {null, null, null, null},
+            {null, null, null, null},
+            {null, null, null, null},
+            {null, null, null, null}
+        },
+        new String [] {
+            "Title 1", "Title 2", "Title 3", "Title 4"
+        }
+    ));
+    jScrollPane2.setViewportView(jTable1);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+    jPanel27.add(jScrollPane2, gridBagConstraints);
+
+    jPanel25.add(jPanel27, java.awt.BorderLayout.CENTER);
+
+    jScrollPane1.setViewportView(jPanel25);
+
+    ordem_servico.add(jScrollPane1);
+
+    rootDashboard.add(ordem_servico, "ordem_servico");
 
     manutencoes.setBackground(new java.awt.Color(204, 51, 255));
 
@@ -598,7 +690,7 @@ public class View extends javax.swing.JFrame {
         .addGap(0, 746, Short.MAX_VALUE)
     );
 
-    jPanel20.add(manutencoes, "card3");
+    rootDashboard.add(manutencoes, "manutencoes");
 
     historico.setBackground(new java.awt.Color(102, 255, 51));
 
@@ -613,7 +705,7 @@ public class View extends javax.swing.JFrame {
         .addGap(0, 746, Short.MAX_VALUE)
     );
 
-    jPanel20.add(historico, "card4");
+    rootDashboard.add(historico, "historico");
 
     relatorio.setBackground(new java.awt.Color(153, 0, 153));
 
@@ -628,7 +720,7 @@ public class View extends javax.swing.JFrame {
         .addGap(0, 746, Short.MAX_VALUE)
     );
 
-    jPanel20.add(relatorio, "card5");
+    rootDashboard.add(relatorio, "relatorio");
 
     javax.swing.GroupLayout ativoLayout = new javax.swing.GroupLayout(ativo);
     ativo.setLayout(ativoLayout);
@@ -641,9 +733,9 @@ public class View extends javax.swing.JFrame {
         .addGap(0, 746, Short.MAX_VALUE)
     );
 
-    jPanel20.add(ativo, "card6");
+    rootDashboard.add(ativo, "ativo");
 
-    dashboard.add(jPanel20, java.awt.BorderLayout.CENTER);
+    dashboard.add(rootDashboard, java.awt.BorderLayout.CENTER);
 
     root.add(dashboard, "dashboard");
 
@@ -655,7 +747,7 @@ public class View extends javax.swing.JFrame {
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(root, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
+        .addComponent(root, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
 
     pack();
@@ -673,6 +765,7 @@ public class View extends javax.swing.JFrame {
             try{
                 LoginController login = new LoginController();
                 resultado = login.loginUsuario(this);
+                name = login.getUser().getNome();
             }
             catch(SQLException sql){
                 resultado = false;
@@ -683,6 +776,7 @@ public class View extends javax.swing.JFrame {
                 GlassPanePopup.showPopup(new PopupView("Login realizado", "Bem vindo!"));
                 CardLayout card = (CardLayout) root.getLayout();
                 card.show(root, "dashboard");
+                nameUser.setText("Técnico - "+name);
             }
             else{
                 GlassPanePopup.showPopup(new PopupView("Usuário não encontrado", "Verifique seu e-mail e senha."));
@@ -705,18 +799,37 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        CardLayout card = (CardLayout) rootDashboard.getLayout();
+        card.show(rootDashboard, "ordem_servico");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        CardLayout card = (CardLayout) rootDashboard.getLayout();
+        card.show(rootDashboard, "manutencoes");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         if(evt.getComponent().getWidth() < 800){
-            System.out.println("deu");
+            menu.setPreferredSize(new Dimension(43, 746));
+        } else{
+            menu.setPreferredSize(new Dimension(263, 746));
         }
     }//GEN-LAST:event_formComponentResized
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        CardLayout card = (CardLayout) rootDashboard.getLayout();
+        card.show(rootDashboard, "historico");
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        CardLayout card = (CardLayout) rootDashboard.getLayout();
+        card.show(rootDashboard, "relatorio");
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        CardLayout card = (CardLayout) rootDashboard.getLayout();
+        card.show(rootDashboard, "ativo");
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -728,15 +841,10 @@ public class View extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Metal".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
+    UIManager.setLookAndFeel( new FlatLightLaf() );
+    } catch( Exception ex ) {
+        System.err.println( "Failed to initialize LaF" );
+    }
         //</editor-fold>
 
         /* Create and display the form */
@@ -744,8 +852,11 @@ public class View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AgendadaLabel;
+    private javax.swing.JLabel andamentoLabel;
     private javax.swing.JPanel ativo;
     private javax.swing.JPanel dashboard;
+    private javax.swing.JLabel finalizadoLabel;
     private javax.swing.JPanel header;
     private javax.swing.JPanel historico;
     private javax.swing.JButton jButton1;
@@ -763,6 +874,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -788,6 +900,9 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -796,12 +911,18 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPasswordField jPasswordFieldSenha;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JPanel login;
     private javax.swing.JPanel manutencoes;
     private javax.swing.JPanel menu;
+    private javax.swing.JLabel nameUser;
     private javax.swing.JPanel ordem_servico;
+    private javax.swing.JLabel pendenteLabel;
     private javax.swing.JPanel relatorio;
     private javax.swing.JPanel root;
+    private javax.swing.JPanel rootDashboard;
     // End of variables declaration//GEN-END:variables
 }

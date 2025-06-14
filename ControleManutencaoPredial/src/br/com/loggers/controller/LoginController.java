@@ -36,4 +36,9 @@ public class LoginController {
             return false;
         }
     }
+
+    public User getUser() {
+        return user;
+    }
+    
 }
