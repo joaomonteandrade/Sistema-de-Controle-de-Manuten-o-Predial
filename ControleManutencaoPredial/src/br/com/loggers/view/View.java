@@ -5,14 +5,17 @@
 package br.com.loggers.view;
 
 import br.com.loggers.controller.LoginController;
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import java.sql.SQLException;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.UIManager;
 import raven.glasspanepopup.GlassPanePopup;
@@ -34,6 +37,15 @@ public class View extends javax.swing.JFrame {
         return jTextFieldEmail;
     }
     
+    public void updateMenu(){
+        ordem_servicoButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
+        manutencoesButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
+        logButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
+        relatoriosButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
+        ativosButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
+        
+    }
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
 
     /**
@@ -42,7 +54,14 @@ public class View extends javax.swing.JFrame {
     public View() {
         initComponents();
         GlassPanePopup.install(this);
-    }
+        FlatLightLaf.install();
+        ordem_servicoButton.putClientProperty(FlatClientProperties.STYLE, ""
+                + "[light]background:darken(@background,0%);"
+                + "[dark]background:lighten(@background,10%);"
+                + "borderWidth:0;"
+                + "focusWidth:0;"
+                + "innerFocusWidth:0");
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -83,20 +102,21 @@ public class View extends javax.swing.JFrame {
         nameUser = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
         menu = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
+        ordem_servicoButton = new javax.swing.JButton();
         jPanel13 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
+        manutencoesButton = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
+        logButton = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
-        jButton7 = new javax.swing.JButton();
+        relatoriosButton = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
-        jButton8 = new javax.swing.JButton();
+        ativosButton = new javax.swing.JButton();
         rootDashboard = new javax.swing.JPanel();
         ordem_servico = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -279,6 +299,7 @@ public class View extends javax.swing.JFrame {
     jButton1.setForeground(new java.awt.Color(255, 255, 255));
     jButton1.setText("Entrar");
     jButton1.setAlignmentX(1.0F);
+    jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
     jButton1.setMaximumSize(new java.awt.Dimension(360, 52));
     jButton1.setPreferredSize(new java.awt.Dimension(360, 52));
     jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -368,9 +389,25 @@ public class View extends javax.swing.JFrame {
     jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/notifica.png"))); // NOI18N
     jButton10.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
     jButton10.setBorderPainted(false);
-    jButton10.setContentAreaFilled(false);
     jButton10.setFocusPainted(false);
+    jButton10.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton10ActionPerformed(evt);
+        }
+    });
     jPanel17.add(jButton10);
+
+    jButton13.setBackground(new java.awt.Color(60, 137, 166));
+    jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/notifica.png"))); // NOI18N
+    jButton13.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
+    jButton13.setBorderPainted(false);
+    jButton13.setFocusPainted(false);
+    jButton13.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton13ActionPerformed(evt);
+        }
+    });
+    jPanel17.add(jButton13);
 
     jPanel1.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, 198, 32));
 
@@ -401,17 +438,17 @@ public class View extends javax.swing.JFrame {
     jPanel12.setBackground(new java.awt.Color(255, 255, 255));
     jPanel12.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    jButton4.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
-    jButton4.setForeground(new java.awt.Color(60, 137, 166));
-    jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Chart.png"))); // NOI18N
-    jButton4.setText("  Ordens de Serviço");
-    jButton4.setBorderPainted(false);
-    jButton4.setContentAreaFilled(false);
-    jButton4.setFocusPainted(false);
-    jButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-    jButton4.addActionListener(new java.awt.event.ActionListener() {
+    ordem_servicoButton.setBackground(new java.awt.Color(204, 204, 204));
+    ordem_servicoButton.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    ordem_servicoButton.setForeground(new java.awt.Color(60, 137, 166));
+    ordem_servicoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Chart.png"))); // NOI18N
+    ordem_servicoButton.setText("  Ordens de Serviço");
+    ordem_servicoButton.setBorderPainted(false);
+    ordem_servicoButton.setFocusPainted(false);
+    ordem_servicoButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    ordem_servicoButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton4ActionPerformed(evt);
+            ordem_servicoButtonActionPerformed(evt);
         }
     });
 
@@ -419,11 +456,11 @@ public class View extends javax.swing.JFrame {
     jPanel12.setLayout(jPanel12Layout);
     jPanel12Layout.setHorizontalGroup(
         jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(ordem_servicoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     jPanel12Layout.setVerticalGroup(
         jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+        .addComponent(ordem_servicoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
     );
 
     jPanel10.add(jPanel12);
@@ -431,15 +468,14 @@ public class View extends javax.swing.JFrame {
     jPanel13.setBackground(new java.awt.Color(255, 255, 255));
     jPanel13.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    jButton5.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-    jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Vector.png"))); // NOI18N
-    jButton5.setText("  Manutenções");
-    jButton5.setBorderPainted(false);
-    jButton5.setContentAreaFilled(false);
-    jButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-    jButton5.addActionListener(new java.awt.event.ActionListener() {
+    manutencoesButton.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    manutencoesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Vector.png"))); // NOI18N
+    manutencoesButton.setText("  Manutenções");
+    manutencoesButton.setBorderPainted(false);
+    manutencoesButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    manutencoesButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton5ActionPerformed(evt);
+            manutencoesButtonActionPerformed(evt);
         }
     });
 
@@ -447,11 +483,11 @@ public class View extends javax.swing.JFrame {
     jPanel13.setLayout(jPanel13Layout);
     jPanel13Layout.setHorizontalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(manutencoesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     jPanel13Layout.setVerticalGroup(
         jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+        .addComponent(manutencoesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
     );
 
     jPanel10.add(jPanel13);
@@ -459,15 +495,14 @@ public class View extends javax.swing.JFrame {
     jPanel14.setBackground(new java.awt.Color(255, 255, 255));
     jPanel14.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    jButton6.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-    jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Clock.png"))); // NOI18N
-    jButton6.setText("  Logs de Sistema");
-    jButton6.setBorderPainted(false);
-    jButton6.setContentAreaFilled(false);
-    jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-    jButton6.addActionListener(new java.awt.event.ActionListener() {
+    logButton.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    logButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Clock.png"))); // NOI18N
+    logButton.setText("  Logs de Sistema");
+    logButton.setBorderPainted(false);
+    logButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    logButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton6ActionPerformed(evt);
+            logButtonActionPerformed(evt);
         }
     });
 
@@ -475,11 +510,11 @@ public class View extends javax.swing.JFrame {
     jPanel14.setLayout(jPanel14Layout);
     jPanel14Layout.setHorizontalGroup(
         jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(logButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     jPanel14Layout.setVerticalGroup(
         jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+        .addComponent(logButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
     );
 
     jPanel10.add(jPanel14);
@@ -487,15 +522,14 @@ public class View extends javax.swing.JFrame {
     jPanel15.setBackground(new java.awt.Color(255, 255, 255));
     jPanel15.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    jButton7.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-    jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Document.png"))); // NOI18N
-    jButton7.setText("  Relatórios");
-    jButton7.setBorderPainted(false);
-    jButton7.setContentAreaFilled(false);
-    jButton7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-    jButton7.addActionListener(new java.awt.event.ActionListener() {
+    relatoriosButton.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    relatoriosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Document.png"))); // NOI18N
+    relatoriosButton.setText("  Relatórios");
+    relatoriosButton.setBorderPainted(false);
+    relatoriosButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    relatoriosButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton7ActionPerformed(evt);
+            relatoriosButtonActionPerformed(evt);
         }
     });
 
@@ -503,11 +537,11 @@ public class View extends javax.swing.JFrame {
     jPanel15.setLayout(jPanel15Layout);
     jPanel15Layout.setHorizontalGroup(
         jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(relatoriosButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     jPanel15Layout.setVerticalGroup(
         jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+        .addComponent(relatoriosButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
     );
 
     jPanel10.add(jPanel15);
@@ -515,15 +549,14 @@ public class View extends javax.swing.JFrame {
     jPanel16.setBackground(new java.awt.Color(255, 255, 255));
     jPanel16.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    jButton8.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-    jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Box.png"))); // NOI18N
-    jButton8.setText("  Ativos");
-    jButton8.setBorderPainted(false);
-    jButton8.setContentAreaFilled(false);
-    jButton8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-    jButton8.addActionListener(new java.awt.event.ActionListener() {
+    ativosButton.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    ativosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Box.png"))); // NOI18N
+    ativosButton.setText("  Ativos");
+    ativosButton.setBorderPainted(false);
+    ativosButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    ativosButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton8ActionPerformed(evt);
+            ativosButtonActionPerformed(evt);
         }
     });
 
@@ -531,11 +564,11 @@ public class View extends javax.swing.JFrame {
     jPanel16.setLayout(jPanel16Layout);
     jPanel16Layout.setHorizontalGroup(
         jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+        .addComponent(ativosButton, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
     );
     jPanel16Layout.setVerticalGroup(
         jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+        .addComponent(ativosButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
     );
 
     jPanel10.add(jPanel16);
@@ -891,15 +924,16 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void ordem_servicoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordem_servicoButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "ordem_servico");
-    }//GEN-LAST:event_jButton4ActionPerformed
+        updateMenu();
+    }//GEN-LAST:event_ordem_servicoButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void manutencoesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manutencoesButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "manutencoes");
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_manutencoesButtonActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         if(evt.getComponent().getWidth() < 800){
@@ -909,20 +943,28 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formComponentResized
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void logButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "historico");
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_logButtonActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void relatoriosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatoriosButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "relatorio");
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_relatoriosButtonActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void ativosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ativosButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "ativo");
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_ativosButtonActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        GlassPanePopup.showPopup(new Notificacao());
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -948,6 +990,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel AgendadaLabel;
     private javax.swing.JLabel andamentoLabel;
     private javax.swing.JPanel ativo;
+    private javax.swing.JButton ativosButton;
     private javax.swing.JPanel dashboard;
     private javax.swing.JLabel finalizadoLabel;
     private javax.swing.JPanel header;
@@ -956,14 +999,10 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1024,13 +1063,17 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextFieldEmail;
+    private javax.swing.JButton logButton;
     private javax.swing.JPanel login;
     private javax.swing.JPanel manutencoes;
+    private javax.swing.JButton manutencoesButton;
     private javax.swing.JPanel menu;
     private javax.swing.JLabel nameUser;
     private javax.swing.JPanel ordem_servico;
+    private javax.swing.JButton ordem_servicoButton;
     private javax.swing.JLabel pendenteLabel;
     private javax.swing.JPanel relatorio;
+    private javax.swing.JButton relatoriosButton;
     private javax.swing.JPanel root;
     private javax.swing.JPanel rootDashboard;
     // End of variables declaration//GEN-END:variables
