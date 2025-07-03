@@ -30,7 +30,6 @@ public class LoginController {
         if(login.login(view.getjTextFieldEmail().getText(), view.getjPasswordFieldSenha().getText())){
             String[] data = login.getData(view.getjTextFieldEmail().getText());
             user.setData(data[0], data[1], data[2]);
-            System.out.println(user.getNome());
             return true;
         }else{
             return false;
