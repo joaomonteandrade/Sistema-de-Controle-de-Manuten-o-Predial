@@ -55,47 +55,13 @@ public class Notificacao extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel5 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabelTitle = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabelText = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
+        jLabelTitle = new javax.swing.JLabel();
+        jLabelText = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(534, 188));
+        setPreferredSize(new java.awt.Dimension(791, 666));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel5.setPreferredSize(new java.awt.Dimension(534, 176));
-        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(534, 40));
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        jLabelTitle.setFont(new java.awt.Font("Poppins", 1, 28)); // NOI18N
-        jLabelTitle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabelTitle.setText("Erro!");
-        jLabelTitle.setAlignmentX(0.5F);
-        jLabelTitle.setPreferredSize(new java.awt.Dimension(500, 43));
-        jPanel1.add(jLabelTitle, java.awt.BorderLayout.WEST);
-
-        jPanel5.add(jPanel1);
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setPreferredSize(new java.awt.Dimension(474, 70));
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        jLabelText.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
-        jLabelText.setText("<html>Um ou mais campos obrigatórios não foram preenchidos.<br><br></html>");
-        jLabelText.setAlignmentY(0.4F);
-        jPanel4.add(jLabelText, java.awt.BorderLayout.WEST);
-
-        jPanel5.add(jPanel4);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(new java.awt.BorderLayout());
 
         jButton5.setBackground(new java.awt.Color(60, 137, 166));
         jButton5.setFont(new java.awt.Font("Poppins", 1, 16)); // NOI18N
@@ -110,11 +76,19 @@ public class Notificacao extends javax.swing.JPanel {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5, java.awt.BorderLayout.EAST);
+        add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 600, -1, -1));
 
-        jPanel5.add(jPanel2);
+        jLabelTitle.setFont(new java.awt.Font("Poppins", 1, 28)); // NOI18N
+        jLabelTitle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabelTitle.setText("Notificações");
+        jLabelTitle.setAlignmentX(0.5F);
+        jLabelTitle.setPreferredSize(new java.awt.Dimension(500, 43));
+        add(jLabelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 23, 474, 134));
+        jLabelText.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+        jLabelText.setText("Nenhuma notificação");
+        jLabelText.setAlignmentY(0.4F);
+        add(jLabelText, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -134,9 +108,5 @@ public class Notificacao extends javax.swing.JPanel {
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabelText;
     private javax.swing.JLabel jLabelTitle;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     // End of variables declaration//GEN-END:variables
 }

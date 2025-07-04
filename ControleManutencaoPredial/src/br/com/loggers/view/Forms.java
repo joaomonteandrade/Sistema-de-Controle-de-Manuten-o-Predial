@@ -26,7 +26,20 @@ public class Forms extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
     }
-    
+    private boolean verificarCampos() {
+    if (jTextField1.getText().trim().isEmpty() ||
+        jComboBox1.getSelectedItem() == null ||
+        jComboBox2.getSelectedItem() == null ||
+        jComboBox3.getSelectedItem() == null ||
+        jComboBox4.getSelectedItem() == null ||
+        jComboBox5.getSelectedItem() == null ||
+        jTextArea1.getText().trim().isEmpty()) {
+        
+        
+        return false;
+    }
+    return true;
+    }
     
     @Override
     protected void paintComponent(Graphics grphcs) {
@@ -58,6 +71,17 @@ public class Forms extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jComboBox5 = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton3 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(791, 666));
@@ -76,6 +100,7 @@ public class Forms extends javax.swing.JPanel {
         jLabel3.setText("Título");
         add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 140, -1, -1));
 
+        jTextField1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -102,23 +127,99 @@ public class Forms extends javax.swing.JPanel {
 
         jComboBox2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 170, 283, 45));
+
+        jLabel6.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+        jLabel6.setText("Descrição");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 440, -1, -1));
+
+        jComboBox3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 370, 336, 45));
+
+        jLabel7.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+        jLabel7.setText("Data");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 240, -1, -1));
+
+        jComboBox4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 336, 45));
+
+        jComboBox5.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        add(jComboBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 370, 336, 45));
+
+        jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+        jLabel8.setText("Status");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 340, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+        jLabel9.setText("Urgência");
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 340, -1, -1));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 470, 700, 110));
+
+        jButton3.setBackground(new java.awt.Color(217, 217, 217));
+        jButton3.setFont(new java.awt.Font("Poppins", 1, 16)); // NOI18N
+        jButton3.setText("Cancelar");
+        jButton3.setPreferredSize(new java.awt.Dimension(107, 42));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 600, -1, -1));
+
+        jButton5.setBackground(new java.awt.Color(60, 137, 166));
+        jButton5.setFont(new java.awt.Font("Poppins", 1, 16)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Salvar");
+        jButton5.setPreferredSize(new java.awt.Dimension(107, 42));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(635, 600, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        GlassPanePopup.closePopupLast();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if(!verificarCampos()){
+            GlassPanePopup.showPopup(new PopupView("Erro!", "Um ou mais campos obrigatórios não foram preenchidos."));
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 // Variables declaration - do not modify                     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,6 +9,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JPasswordField;
@@ -45,6 +46,17 @@ public class View extends javax.swing.JFrame {
         relatoriosButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
         ativosButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
         
+        ordem_servicoButton.setForeground(new Color(0, 0, 0));
+        manutencoesButton.setForeground(new Color(0, 0, 0));
+        logButton.setForeground(new Color(0, 0, 0));
+        relatoriosButton.setForeground(new Color(0, 0, 0));
+        ativosButton.setForeground(new Color(0, 0, 0));
+        
+        ordem_servicoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/ChartBlack.png")));
+        manutencoesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Vector.png")));
+        logButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Clock.png")));
+        relatoriosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Document.png")));
+        ativosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Box.png")));
     }
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
@@ -56,12 +68,6 @@ public class View extends javax.swing.JFrame {
         initComponents();
         GlassPanePopup.install(this);
         FlatLightLaf.install();
-        ordem_servicoButton.putClientProperty(FlatClientProperties.STYLE, ""
-                + "[light]background:darken(@background,0%);"
-                + "[dark]background:lighten(@background,10%);"
-                + "borderWidth:0;"
-                + "focusWidth:0;"
-                + "innerFocusWidth:0");
         
         OSTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
         OSTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
@@ -72,6 +78,36 @@ public class View extends javax.swing.JFrame {
         columnModel.getColumn(3).setPreferredWidth(160);
         columnModel.getColumn(4).setPreferredWidth(180);
         columnModel.getColumn(5).setPreferredWidth(193);
+        
+        manutencaoTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
+        manutencaoTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
+        TableColumnModel columnModel2 = manutencaoTable.getColumnModel();
+        columnModel2.getColumn(0).setPreferredWidth(100);
+        columnModel2.getColumn(1).setPreferredWidth(300);
+        columnModel2.getColumn(2).setPreferredWidth(220);
+        columnModel2.getColumn(3).setPreferredWidth(200);
+        columnModel2.getColumn(4).setPreferredWidth(200);
+        
+        logsTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
+        logsTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
+        TableColumnModel columnModel3 = logsTable.getColumnModel();
+        columnModel3.getColumn(0).setPreferredWidth(100);
+        columnModel3.getColumn(1).setPreferredWidth(100);
+        columnModel3.getColumn(2).setPreferredWidth(100);
+        columnModel3.getColumn(3).setPreferredWidth(500);
+        columnModel3.getColumn(4).setPreferredWidth(300);
+        
+        relatorioTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
+        relatorioTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
+        
+        manutencaoTable1.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
+        manutencaoTable1.getTableHeader().setPreferredSize(new Dimension(100, 56));
+        TableColumnModel columnModel4 = manutencaoTable1.getColumnModel();
+        columnModel4.getColumn(0).setPreferredWidth(100);
+        columnModel4.getColumn(1).setPreferredWidth(300);
+        columnModel4.getColumn(2).setPreferredWidth(220);
+        columnModel4.getColumn(3).setPreferredWidth(200);
+        columnModel4.getColumn(4).setPreferredWidth(200);
         }
 
     /**
@@ -169,12 +205,53 @@ public class View extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jPanel38 = new javax.swing.JPanel();
-        jPanel35 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        manutencaoTable = new javax.swing.JTable();
         historico = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jPanel35 = new javax.swing.JPanel();
+        jPanel36 = new javax.swing.JPanel();
+        jPanel37 = new javax.swing.JPanel();
+        jPanel39 = new javax.swing.JPanel();
+        jPanel40 = new javax.swing.JPanel();
+        jPanel42 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jPanel43 = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        logsTable = new javax.swing.JTable();
         relatorio = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jPanel41 = new javax.swing.JPanel();
+        jPanel44 = new javax.swing.JPanel();
+        jPanel45 = new javax.swing.JPanel();
+        jPanel46 = new javax.swing.JPanel();
+        jPanel47 = new javax.swing.JPanel();
+        jPanel48 = new javax.swing.JPanel();
+        jButton15 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
+        jPanel49 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jPanel50 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        relatorioTable = new javax.swing.JTable();
         ativo = new javax.swing.JPanel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        jPanel51 = new javax.swing.JPanel();
+        jPanel52 = new javax.swing.JPanel();
+        jPanel53 = new javax.swing.JPanel();
+        jPanel54 = new javax.swing.JPanel();
+        jPanel55 = new javax.swing.JPanel();
+        jPanel56 = new javax.swing.JPanel();
+        jButton17 = new javax.swing.JButton();
+        jPanel57 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jLabel21 = new javax.swing.JLabel();
+        jPanel58 = new javax.swing.JPanel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        manutencaoTable1 = new javax.swing.JTable();
 
         jScrollPane5.setViewportView(jEditorPane1);
 
@@ -356,9 +433,9 @@ public class View extends javax.swing.JFrame {
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel3Layout.createSequentialGroup()
-            .addContainerGap(208, Short.MAX_VALUE)
+            .addContainerGap(209, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(218, Short.MAX_VALUE))
+            .addContainerGap(217, Short.MAX_VALUE))
     );
 
     login.add(jPanel3, java.awt.BorderLayout.EAST);
@@ -452,7 +529,6 @@ public class View extends javax.swing.JFrame {
     jPanel12.setBackground(new java.awt.Color(255, 255, 255));
     jPanel12.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    ordem_servicoButton.setBackground(new java.awt.Color(204, 204, 204));
     ordem_servicoButton.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
     ordem_servicoButton.setForeground(new java.awt.Color(60, 137, 166));
     ordem_servicoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Chart.png"))); // NOI18N
@@ -767,8 +843,9 @@ public class View extends javax.swing.JFrame {
     rootDashboard.add(ordem_servico, "ordem_servico");
 
     manutencoes.setBackground(new java.awt.Color(255, 255, 255));
-    manutencoes.setLayout(new javax.swing.BoxLayout(manutencoes, javax.swing.BoxLayout.LINE_AXIS));
 
+    jPanel28.setMinimumSize(new java.awt.Dimension(0, 66));
+    jPanel28.setPreferredSize(new java.awt.Dimension(500, 602));
     jPanel28.setLayout(new java.awt.BorderLayout());
 
     jPanel29.setLayout(new javax.swing.BoxLayout(jPanel29, javax.swing.BoxLayout.Y_AXIS));
@@ -782,19 +859,25 @@ public class View extends javax.swing.JFrame {
 
     jPanel32.setLayout(new java.awt.BorderLayout());
 
-    jPanel33.setLayout(new javax.swing.BoxLayout(jPanel33, javax.swing.BoxLayout.LINE_AXIS));
+    jPanel33.setPreferredSize(new java.awt.Dimension(300, 42));
+    jPanel33.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-    jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/botao_nova_ordem(1).png"))); // NOI18N
-    jButton12.setBorderPainted(false);
-    jButton12.setContentAreaFilled(false);
-    jButton12.setFocusPainted(false);
-    jPanel33.add(jButton12);
+    jButton12.setBackground(new java.awt.Color(23, 50, 62));
+    jButton12.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton12.setForeground(new java.awt.Color(255, 255, 255));
+    jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Icon.png"))); // NOI18N
+    jButton12.setText("Nova manutenção");
+    jButton12.setBorder(null);
+    jButton12.setPreferredSize(new java.awt.Dimension(150, 34));
+    jPanel33.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 150, 34));
 
-    jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Button.png"))); // NOI18N
+    jButton14.setBackground(new java.awt.Color(23, 50, 62));
+    jButton14.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton14.setForeground(new java.awt.Color(255, 255, 255));
+    jButton14.setText("Exportar PDF");
+    jButton14.setBorder(null);
     jButton14.setBorderPainted(false);
-    jButton14.setContentAreaFilled(false);
-    jButton14.setFocusPainted(false);
-    jPanel33.add(jButton14);
+    jPanel33.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 109, 35));
 
     jPanel32.add(jPanel33, java.awt.BorderLayout.EAST);
 
@@ -825,78 +908,344 @@ public class View extends javax.swing.JFrame {
     jPanel38.setAlignmentX(0.0F);
     jPanel38.setLayout(new java.awt.GridBagLayout());
 
-    jPanel35.setLayout(new javax.swing.BoxLayout(jPanel35, javax.swing.BoxLayout.LINE_AXIS));
-
-    jTable2.setBorder(javax.swing.BorderFactory.createEmptyBorder(50, 50, 50, 50));
-    jTable2.setModel(new javax.swing.table.DefaultTableModel(
+    manutencaoTable.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    manutencaoTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null}
+            {"asdfsa", "asdfasdfas", "asdfasdfas", "asdfasdf", null}
         },
         new String [] {
-            "Title 1", "Title 2", "Title 3", "Title 4"
+            "Ordem", "Título", "Data", "Local", "Tipo"
         }
-    ));
-    jScrollPane4.setViewportView(jTable2);
+    ) {
+        boolean[] canEdit = new boolean [] {
+            false, false, false, false, false
+        };
 
-    jPanel35.add(jScrollPane4);
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    manutencaoTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+    manutencaoTable.setRowHeight(56);
+    jScrollPane7.setViewportView(manutencaoTable);
 
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.weightx = 1.0;
-    gridBagConstraints.weighty = 2.0;
-    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
-    jPanel38.add(jPanel35, gridBagConstraints);
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 50, 50);
+    jPanel38.add(jScrollPane7, gridBagConstraints);
 
     jPanel28.add(jPanel38, java.awt.BorderLayout.CENTER);
 
     jScrollPane3.setViewportView(jPanel28);
 
-    manutencoes.add(jScrollPane3);
+    javax.swing.GroupLayout manutencoesLayout = new javax.swing.GroupLayout(manutencoes);
+    manutencoes.setLayout(manutencoesLayout);
+    manutencoesLayout.setHorizontalGroup(
+        manutencoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1177, Short.MAX_VALUE)
+    );
+    manutencoesLayout.setVerticalGroup(
+        manutencoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+    );
 
     rootDashboard.add(manutencoes, "manutencoes");
 
-    historico.setBackground(new java.awt.Color(102, 255, 51));
+    historico.setBackground(new java.awt.Color(255, 255, 255));
+
+    jPanel35.setMinimumSize(new java.awt.Dimension(0, 66));
+    jPanel35.setPreferredSize(new java.awt.Dimension(500, 602));
+    jPanel35.setLayout(new java.awt.BorderLayout());
+
+    jPanel36.setLayout(new javax.swing.BoxLayout(jPanel36, javax.swing.BoxLayout.Y_AXIS));
+
+    jPanel37.setAlignmentX(0.0F);
+    jPanel37.setPreferredSize(new java.awt.Dimension(1177, 150));
+    jPanel37.setLayout(new java.awt.BorderLayout());
+
+    jPanel39.setMinimumSize(new java.awt.Dimension(0, 0));
+    jPanel39.setLayout(new java.awt.GridBagLayout());
+
+    jPanel40.setLayout(new java.awt.BorderLayout());
+
+    jPanel42.setLayout(new javax.swing.BoxLayout(jPanel42, javax.swing.BoxLayout.Y_AXIS));
+
+    jLabel16.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel16.setText("Logs de sistema");
+    jPanel42.add(jLabel16);
+
+    jLabel17.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel17.setText("Logs e histórico de mudanças no sistema");
+    jPanel42.add(jLabel17);
+
+    jPanel40.add(jPanel42, java.awt.BorderLayout.WEST);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+    jPanel39.add(jPanel40, gridBagConstraints);
+
+    jPanel37.add(jPanel39, java.awt.BorderLayout.CENTER);
+
+    jPanel36.add(jPanel37);
+
+    jPanel35.add(jPanel36, java.awt.BorderLayout.NORTH);
+
+    jPanel43.setAlignmentX(0.0F);
+    jPanel43.setLayout(new java.awt.GridBagLayout());
+
+    logsTable.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    logsTable.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {"asdfsa", "asdfasdfas", "asdfasdfas", "asdfasdf", null}
+        },
+        new String [] {
+            "Data", "Hora", "Usuário", "Descrição", "Tipo"
+        }
+    ) {
+        boolean[] canEdit = new boolean [] {
+            false, false, false, false, false
+        };
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    logsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+    logsTable.setRowHeight(56);
+    jScrollPane8.setViewportView(logsTable);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 50, 50);
+    jPanel43.add(jScrollPane8, gridBagConstraints);
+
+    jPanel35.add(jPanel43, java.awt.BorderLayout.CENTER);
+
+    jScrollPane4.setViewportView(jPanel35);
 
     javax.swing.GroupLayout historicoLayout = new javax.swing.GroupLayout(historico);
     historico.setLayout(historicoLayout);
     historicoLayout.setHorizontalGroup(
         historicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1177, Short.MAX_VALUE)
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1177, Short.MAX_VALUE)
     );
     historicoLayout.setVerticalGroup(
         historicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 746, Short.MAX_VALUE)
+        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
     );
 
     rootDashboard.add(historico, "historico");
 
-    relatorio.setBackground(new java.awt.Color(153, 0, 153));
+    relatorio.setBackground(new java.awt.Color(255, 255, 255));
+
+    jPanel41.setMinimumSize(new java.awt.Dimension(0, 66));
+    jPanel41.setPreferredSize(new java.awt.Dimension(500, 602));
+    jPanel41.setLayout(new java.awt.BorderLayout());
+
+    jPanel44.setLayout(new javax.swing.BoxLayout(jPanel44, javax.swing.BoxLayout.Y_AXIS));
+
+    jPanel45.setAlignmentX(0.0F);
+    jPanel45.setPreferredSize(new java.awt.Dimension(1177, 150));
+    jPanel45.setLayout(new java.awt.BorderLayout());
+
+    jPanel46.setMinimumSize(new java.awt.Dimension(0, 0));
+    jPanel46.setLayout(new java.awt.GridBagLayout());
+
+    jPanel47.setLayout(new java.awt.BorderLayout());
+
+    jPanel48.setPreferredSize(new java.awt.Dimension(300, 42));
+    jPanel48.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    jButton15.setBackground(new java.awt.Color(23, 50, 62));
+    jButton15.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton15.setForeground(new java.awt.Color(255, 255, 255));
+    jButton15.setText("Exportar CSV");
+    jButton15.setBorder(null);
+    jButton15.setPreferredSize(new java.awt.Dimension(150, 34));
+    jPanel48.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 109, 34));
+
+    jButton16.setBackground(new java.awt.Color(23, 50, 62));
+    jButton16.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton16.setForeground(new java.awt.Color(255, 255, 255));
+    jButton16.setText("Exportar PDF");
+    jButton16.setBorder(null);
+    jButton16.setBorderPainted(false);
+    jPanel48.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 109, 35));
+
+    jPanel47.add(jPanel48, java.awt.BorderLayout.EAST);
+
+    jPanel49.setLayout(new javax.swing.BoxLayout(jPanel49, javax.swing.BoxLayout.Y_AXIS));
+
+    jLabel18.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel18.setText("Relatórios");
+    jPanel49.add(jLabel18);
+
+    jLabel19.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel19.setText("Exportar arquivo em PDF");
+    jPanel49.add(jLabel19);
+
+    jPanel47.add(jPanel49, java.awt.BorderLayout.WEST);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+    jPanel46.add(jPanel47, gridBagConstraints);
+
+    jPanel45.add(jPanel46, java.awt.BorderLayout.CENTER);
+
+    jPanel44.add(jPanel45);
+
+    jPanel41.add(jPanel44, java.awt.BorderLayout.NORTH);
+
+    jPanel50.setAlignmentX(0.0F);
+    jPanel50.setLayout(new java.awt.GridBagLayout());
+
+    relatorioTable.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    relatorioTable.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {"asdfsa", "asdfasdfas", "asdfasdfas", "asdfasdf"}
+        },
+        new String [] {
+            "ID", "Mês", "Ano", "Total de OS"
+        }
+    ) {
+        boolean[] canEdit = new boolean [] {
+            false, false, false, false
+        };
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    relatorioTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+    relatorioTable.setRowHeight(56);
+    jScrollPane10.setViewportView(relatorioTable);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 50, 50);
+    jPanel50.add(jScrollPane10, gridBagConstraints);
+
+    jPanel41.add(jPanel50, java.awt.BorderLayout.CENTER);
+
+    jScrollPane9.setViewportView(jPanel41);
 
     javax.swing.GroupLayout relatorioLayout = new javax.swing.GroupLayout(relatorio);
     relatorio.setLayout(relatorioLayout);
     relatorioLayout.setHorizontalGroup(
         relatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1177, Short.MAX_VALUE)
+        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1177, Short.MAX_VALUE)
     );
     relatorioLayout.setVerticalGroup(
         relatorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 746, Short.MAX_VALUE)
+        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
     );
 
     rootDashboard.add(relatorio, "relatorio");
+
+    jPanel51.setMinimumSize(new java.awt.Dimension(0, 66));
+    jPanel51.setPreferredSize(new java.awt.Dimension(500, 602));
+    jPanel51.setLayout(new java.awt.BorderLayout());
+
+    jPanel52.setLayout(new javax.swing.BoxLayout(jPanel52, javax.swing.BoxLayout.Y_AXIS));
+
+    jPanel53.setAlignmentX(0.0F);
+    jPanel53.setPreferredSize(new java.awt.Dimension(1177, 150));
+    jPanel53.setLayout(new java.awt.BorderLayout());
+
+    jPanel54.setMinimumSize(new java.awt.Dimension(0, 0));
+    jPanel54.setLayout(new java.awt.GridBagLayout());
+
+    jPanel55.setLayout(new java.awt.BorderLayout());
+
+    jPanel56.setPreferredSize(new java.awt.Dimension(300, 42));
+    jPanel56.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    jButton17.setBackground(new java.awt.Color(23, 50, 62));
+    jButton17.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton17.setForeground(new java.awt.Color(255, 255, 255));
+    jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Icon.png"))); // NOI18N
+    jButton17.setText("Novo ativo");
+    jButton17.setBorder(null);
+    jButton17.setPreferredSize(new java.awt.Dimension(150, 34));
+    jPanel56.add(jButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 150, 34));
+
+    jPanel55.add(jPanel56, java.awt.BorderLayout.EAST);
+
+    jPanel57.setLayout(new javax.swing.BoxLayout(jPanel57, javax.swing.BoxLayout.Y_AXIS));
+
+    jLabel20.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel20.setText("Ativos");
+    jPanel57.add(jLabel20);
+    jPanel57.add(jTabbedPane1);
+
+    jLabel21.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel21.setText("Ativos cadastrados");
+    jPanel57.add(jLabel21);
+
+    jPanel55.add(jPanel57, java.awt.BorderLayout.WEST);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+    jPanel54.add(jPanel55, gridBagConstraints);
+
+    jPanel53.add(jPanel54, java.awt.BorderLayout.CENTER);
+
+    jPanel52.add(jPanel53);
+
+    jPanel51.add(jPanel52, java.awt.BorderLayout.NORTH);
+
+    jPanel58.setAlignmentX(0.0F);
+    jPanel58.setLayout(new java.awt.GridBagLayout());
+
+    manutencaoTable1.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    manutencaoTable1.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {"asdfsa", "asdfasdfas", "asdfasdfas", "asdfasdf", null}
+        },
+        new String [] {
+            "ID", "Nome", "Tipo", "Localização", "Última manut."
+        }
+    ) {
+        boolean[] canEdit = new boolean [] {
+            false, false, false, false, false
+        };
+
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit [columnIndex];
+        }
+    });
+    manutencaoTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+    manutencaoTable1.setRowHeight(56);
+    jScrollPane12.setViewportView(manutencaoTable1);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.weightx = 1.0;
+    gridBagConstraints.insets = new java.awt.Insets(0, 50, 50, 50);
+    jPanel58.add(jScrollPane12, gridBagConstraints);
+
+    jPanel51.add(jPanel58, java.awt.BorderLayout.CENTER);
+
+    jScrollPane11.setViewportView(jPanel51);
 
     javax.swing.GroupLayout ativoLayout = new javax.swing.GroupLayout(ativo);
     ativo.setLayout(ativoLayout);
     ativoLayout.setHorizontalGroup(
         ativoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 1177, Short.MAX_VALUE)
+        .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 1177, Short.MAX_VALUE)
     );
     ativoLayout.setVerticalGroup(
         ativoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGap(0, 746, Short.MAX_VALUE)
+        .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
     );
 
     rootDashboard.add(ativo, "ativo");
@@ -909,7 +1258,7 @@ public class View extends javax.swing.JFrame {
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(root, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1440, Short.MAX_VALUE)
+        .addComponent(root, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -967,12 +1316,21 @@ public class View extends javax.swing.JFrame {
     private void ordem_servicoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordem_servicoButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "ordem_servico");
+        
         updateMenu();
+        ordem_servicoButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        ordem_servicoButton.setForeground(new Color(60,137,166));
+        ordem_servicoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Chart.png")));
     }//GEN-LAST:event_ordem_servicoButtonActionPerformed
 
     private void manutencoesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manutencoesButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "manutencoes");
+        
+        updateMenu();
+        manutencoesButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        manutencoesButton.setForeground(new Color(60,137,166));
+        manutencoesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/predioBlue.png")));
     }//GEN-LAST:event_manutencoesButtonActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
@@ -986,16 +1344,31 @@ public class View extends javax.swing.JFrame {
     private void logButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "historico");
+        
+        updateMenu();
+        logButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        logButton.setForeground(new Color(60,137,166));
+        logButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/ClockBlue.png")));
     }//GEN-LAST:event_logButtonActionPerformed
 
     private void relatoriosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatoriosButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "relatorio");
+        
+        updateMenu();
+        relatoriosButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        relatoriosButton.setForeground(new Color(60,137,166));
+        relatoriosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/DocumentBlue.png")));
     }//GEN-LAST:event_relatoriosButtonActionPerformed
 
     private void ativosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ativosButtonActionPerformed
         CardLayout card = (CardLayout) rootDashboard.getLayout();
         card.show(rootDashboard, "ativo");
+        
+        updateMenu();
+        ativosButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        ativosButton.setForeground(new Color(60,137,166));
+        ativosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/BoxBlue.png")));
     }//GEN-LAST:event_ativosButtonActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -1045,6 +1418,9 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1057,7 +1433,13 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1094,23 +1476,54 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
+    private javax.swing.JPanel jPanel42;
+    private javax.swing.JPanel jPanel43;
+    private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
+    private javax.swing.JPanel jPanel46;
+    private javax.swing.JPanel jPanel47;
+    private javax.swing.JPanel jPanel48;
+    private javax.swing.JPanel jPanel49;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel50;
+    private javax.swing.JPanel jPanel51;
+    private javax.swing.JPanel jPanel52;
+    private javax.swing.JPanel jPanel53;
+    private javax.swing.JPanel jPanel54;
+    private javax.swing.JPanel jPanel55;
+    private javax.swing.JPanel jPanel56;
+    private javax.swing.JPanel jPanel57;
+    private javax.swing.JPanel jPanel58;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPasswordField jPasswordFieldSenha;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JButton logButton;
     private javax.swing.JPanel login;
+    private javax.swing.JTable logsTable;
+    private javax.swing.JTable manutencaoTable;
+    private javax.swing.JTable manutencaoTable1;
     private javax.swing.JPanel manutencoes;
     private javax.swing.JButton manutencoesButton;
     private javax.swing.JPanel menu;
@@ -1119,6 +1532,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton ordem_servicoButton;
     private javax.swing.JLabel pendenteLabel;
     private javax.swing.JPanel relatorio;
+    private javax.swing.JTable relatorioTable;
     private javax.swing.JButton relatoriosButton;
     private javax.swing.JPanel root;
     private javax.swing.JPanel rootDashboard;
