@@ -4,12 +4,17 @@
  */
 package br.com.loggers.view;
 
+import br.com.loggers.controller.Controller;
+import br.com.loggers.controller.OS;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.swing.JLabel;
 import raven.glasspanepopup.GlassPanePopup;
 
@@ -22,16 +27,28 @@ public class Forms extends javax.swing.JPanel {
     /**
      * Creates new form PopupView
      */
+    
     public Forms() {
         initComponents();
         setOpaque(false);
+        
+        Controller controller = new Controller();
+        List<String> categories = controller.getTecnico();
+        for (String name : categories) {
+            jComboBox2.addItem(name);
+        }
+        
+        List<String> locais = controller.getLocal();
+        for (String name : locais) {
+            jComboBox1.addItem(name);
+        }
     }
     private boolean verificarCampos() {
     if (jTextField1.getText().trim().isEmpty() ||
         jComboBox1.getSelectedItem() == null ||
         jComboBox2.getSelectedItem() == null ||
         jComboBox3.getSelectedItem() == null ||
-        jComboBox4.getSelectedItem() == null ||
+        jComboBoxYear.getSelectedItem() == null ||
         jComboBox5.getSelectedItem() == null ||
         jTextArea1.getText().trim().isEmpty()) {
         
@@ -40,6 +57,24 @@ public class Forms extends javax.swing.JPanel {
     }
     return true;
     }
+    
+    public static int converterMes(String mes) {
+    switch (mes.toLowerCase()) {
+        case "janeiro": return 1;
+        case "fevereiro": return 2;
+        case "março": return 3;
+        case "abril": return 4;
+        case "maio": return 5;
+        case "junho": return 6;
+        case "julho": return 7;
+        case "agosto": return 8;
+        case "setembro": return 9;
+        case "outubro": return 10;
+        case "novembro": return 11;
+        case "dezembro": return 12;
+        default: return -1;
+    }
+}
     
     @Override
     protected void paintComponent(Graphics grphcs) {
@@ -74,7 +109,7 @@ public class Forms extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        jComboBoxYear = new javax.swing.JComboBox<>();
         jComboBox5 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -82,6 +117,8 @@ public class Forms extends javax.swing.JPanel {
         jTextArea1 = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jComboBoxDay = new javax.swing.JComboBox<>();
+        jComboBoxMonth = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(791, 666));
@@ -133,16 +170,21 @@ public class Forms extends javax.swing.JPanel {
         add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 440, -1, -1));
 
         jComboBox3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "baixa", "média", "alta" }));
         add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 370, 336, 45));
 
         jLabel7.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
         jLabel7.setText("Data");
         add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 240, -1, -1));
 
-        jComboBox4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 336, 45));
+        jComboBoxYear.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jComboBoxYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035" }));
+        jComboBoxYear.setSelectedIndex(25);
+        jComboBoxYear.setToolTipText("");
+        add(jComboBoxYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 270, 130, 45));
 
         jComboBox5.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pendente", "em andamento", "finalizado", "agendado" }));
         add(jComboBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 370, 336, 45));
 
         jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
@@ -182,6 +224,14 @@ public class Forms extends javax.swing.JPanel {
             }
         });
         add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(635, 600, -1, -1));
+
+        jComboBoxDay.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jComboBoxDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", " " }));
+        add(jComboBoxDay, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 60, 45));
+
+        jComboBoxMonth.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jComboBoxMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro" }));
+        add(jComboBoxMonth, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 120, 45));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -196,6 +246,37 @@ public class Forms extends javax.swing.JPanel {
         if(!verificarCampos()){
             GlassPanePopup.showPopup(new PopupView("Erro!", "Um ou mais campos obrigatórios não foram preenchidos."));
         }
+        else{
+            Controller controller = new Controller();
+            String titulo = jTextField1.getText();
+            int tecnico = controller.getUserId(jComboBox2.getSelectedItem().toString());
+            int mesNumero = converterMes(jComboBoxMonth.getSelectedItem().toString());
+            String dateString = String.format("%s-%02d-%02d",
+                jComboBoxYear.getSelectedItem().toString(),
+                mesNumero,
+                Integer.parseInt(jComboBoxDay.getSelectedItem().toString())
+               );
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate prazo = LocalDate.parse(dateString, formatter);
+            
+            String urgencia = jComboBox3.getSelectedItem().toString();
+            String status = jComboBox5.getSelectedItem().toString();
+            String descricao = jTextArea1.getText();
+            
+            int local_id_local = controller.getLocalId(jComboBox1.getSelectedItem().toString());
+            
+            OS ordem = new OS(titulo, urgencia, status, descricao, prazo, tecnico, local_id_local);
+           
+            try {
+                controller.insertOS(ordem);
+                GlassPanePopup.showPopup(new PopupView("Ordem de serviço registrada!", "A nova ordem de serviço foi registrada com sucesso!"));
+            }
+            catch(Exception e) {
+                GlassPanePopup.showPopup(new PopupView("Erro!", "A nova ordem de serviço não pôde ser registrada!"));
+              
+            }
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
 // Variables declaration - do not modify                     
@@ -207,8 +288,10 @@ public class Forms extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JComboBox<String> jComboBoxDay;
+    private javax.swing.JComboBox<String> jComboBoxMonth;
+    private javax.swing.JComboBox<String> jComboBoxYear;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

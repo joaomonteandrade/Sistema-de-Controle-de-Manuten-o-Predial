@@ -15,7 +15,7 @@ public class Connect {
     private Connection con;
     
     private String driver = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://127.0.0.1:3306/sistema";
+    private String url = "jdbc:mysql://127.0.0.1:3306/mydb";
     private String user = "root";
     private String password = "alunoifro";
     

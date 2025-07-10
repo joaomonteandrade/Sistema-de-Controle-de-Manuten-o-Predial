@@ -10,11 +10,14 @@ package br.com.loggers.controller;
  */
 public class User {
     String nome, email, senha;
+    int id_usuario, tipo;
 
-    public void setData(String nome, String email, String senha){
+    public User(int id_usuario, String nome, String email, String senha, int tipo){
+        this.id_usuario = id_usuario;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.tipo = tipo;
     }
 
     public String getNome() {
@@ -28,6 +31,15 @@ public class User {
     public String getSenha() {
         return senha;
     }
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
     
     
     
