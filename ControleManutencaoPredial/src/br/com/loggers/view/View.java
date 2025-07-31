@@ -8,28 +8,42 @@ import br.com.loggers.controller.Controller;
 import br.com.loggers.controller.User;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import raven.glasspanepopup.GlassPanePopup;
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
+import popup.glasspanepopup.GlassPanePopup;
 
 
 public class View extends javax.swing.JFrame {
 
     public String name;
     boolean visible = false;
+    User logged;
     public JPasswordField getjPasswordFieldSenha() {
         return jPasswordFieldSenha;
     }
@@ -39,11 +53,11 @@ public class View extends javax.swing.JFrame {
     }
     
     public void updateMenu(){
-        ordem_servicoButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
-        manutencoesButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
-        logButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
-        relatoriosButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
-        ativosButton.setFont(new Font("Poppins Medium", Font.PLAIN, 12));
+        ordem_servicoButton.setFont(carregarFonte(Font.PLAIN, 12));
+        manutencoesButton.setFont(carregarFonte(Font.PLAIN, 12));
+        logButton.setFont(carregarFonte(Font.PLAIN, 12));
+        relatoriosButton.setFont(carregarFonte(Font.PLAIN, 12));
+        ativosButton.setFont(carregarFonte(Font.PLAIN, 12));
         
         ordem_servicoButton.setForeground(new Color(0, 0, 0));
         manutencoesButton.setForeground(new Color(0, 0, 0));
@@ -67,8 +81,8 @@ public class View extends javax.swing.JFrame {
         agendadoLabel.setText("<html><body style='text-align: center'>"+ String.valueOf(theController.countAgendado())+"<br>Agendadas");
         
         
-        OSTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
-        OSTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
+        OSTable.getTableHeader().setFont(carregarFonte(Font.BOLD, 16));
+        OSTable.getTableHeader().setPreferredSize(new Dimension(100, 50));
         TableColumnModel columnModel = OSTable.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(100);
         columnModel.getColumn(1).setPreferredWidth(280);
@@ -90,8 +104,8 @@ public class View extends javax.swing.JFrame {
         Controller theController = new Controller();
         manutencaoTable.setModel(theController.getManutencaoTable());
         
-        manutencaoTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
-        manutencaoTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
+        manutencaoTable.getTableHeader().setFont(carregarFonte(Font.BOLD, 16));
+        manutencaoTable.getTableHeader().setPreferredSize(new Dimension(100, 50));
         TableColumnModel columnModel2 = manutencaoTable.getColumnModel();
         columnModel2.getColumn(0).setPreferredWidth(100);
         columnModel2.getColumn(1).setPreferredWidth(300);
@@ -111,13 +125,13 @@ public class View extends javax.swing.JFrame {
         Controller theController = new Controller();
         logsTable.setModel(theController.getLogsTable());
         
-        logsTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
-        logsTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
+        logsTable.getTableHeader().setFont(carregarFonte(Font.BOLD, 16));
+        logsTable.getTableHeader().setPreferredSize(new Dimension(100, 50));
         TableColumnModel columnModel3 = logsTable.getColumnModel();
-        columnModel3.getColumn(0).setPreferredWidth(100);
+        columnModel3.getColumn(0).setPreferredWidth(120);
         columnModel3.getColumn(1).setPreferredWidth(100);
         columnModel3.getColumn(2).setPreferredWidth(100);
-        columnModel3.getColumn(3).setPreferredWidth(500);
+        columnModel3.getColumn(3).setPreferredWidth(480);
         columnModel3.getColumn(4).setPreferredWidth(300);
         
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -133,8 +147,8 @@ public class View extends javax.swing.JFrame {
         ativoTable.setModel(theController.getAtivoTable());
         
         
-        ativoTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
-        ativoTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
+        ativoTable.getTableHeader().setFont(carregarFonte(Font.BOLD, 16));
+        ativoTable.getTableHeader().setPreferredSize(new Dimension(100, 50));
         TableColumnModel columnModel4 = ativoTable.getColumnModel();
         columnModel4.getColumn(0).setPreferredWidth(100);
         columnModel4.getColumn(1).setPreferredWidth(300);
@@ -150,6 +164,106 @@ public class View extends javax.swing.JFrame {
         }
     }
     
+    private void exportToPDF(JTable table) {
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setSelectedFile(new java.io.File("table_output.pdf"));
+    int userSelection = fileChooser.showSaveDialog(this);
+
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+        java.io.File fileToSave = fileChooser.getSelectedFile();
+
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(fileToSave));
+            document.open();
+
+            PdfPTable pdfTable = new PdfPTable(table.getColumnCount());
+
+            // Add column headers
+            for (int i = 0; i < table.getColumnCount(); i++) {
+                pdfTable.addCell(new PdfPCell(new Phrase(table.getColumnName(i))));
+            }
+
+            // Add rows
+            for (int row = 0; row < table.getRowCount(); row++) {
+                for (int col = 0; col < table.getColumnCount(); col++) {
+                    Object value = table.getValueAt(row, col);
+                    pdfTable.addCell(value != null ? value.toString() : "");
+                }
+            }
+
+            document.add(pdfTable);
+            document.close();
+
+            GlassPanePopup.showPopup(new PopupView("PDF exportado com sucesso!", "Verifique sua pasta"));
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            GlassPanePopup.showPopup(new PopupView("Erro ao exportar o PDF", "Contate o administrador"));
+        }
+    }
+}
+
+    
+    private void exportToCSV(JTable table) {
+    try {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setSelectedFile(new java.io.File("table_output.csv"));
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            java.io.File fileToSave = fileChooser.getSelectedFile();
+            try (FileWriter csvWriter = new FileWriter(fileToSave)) {
+
+                // Write column names
+                for (int i = 0; i < table.getColumnCount(); i++) {
+                    csvWriter.append(table.getColumnName(i));
+                    if (i != table.getColumnCount() - 1) csvWriter.append(",");
+                }
+                csvWriter.append("\n");
+
+                // Write rows
+                for (int row = 0; row < table.getRowCount(); row++) {
+                    for (int col = 0; col < table.getColumnCount(); col++) {
+                        Object cellValue = table.getValueAt(row, col);
+                        csvWriter.append(cellValue != null ? cellValue.toString() : "");
+                        if (col != table.getColumnCount() - 1) csvWriter.append(",");
+                    }
+                    csvWriter.append("\n");
+                }
+
+                GlassPanePopup.showPopup(new PopupView("CSV exportado com sucesso!", "Verifique sua pasta"));
+            }
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        GlassPanePopup.showPopup(new PopupView("Erro ao exportar o CSV", "Contate o administrador"));
+    }
+}
+    
+    public static Font carregarFonte(int estilo, float tamanho) {
+    try {
+        String caminhoFonte;
+
+        switch (estilo) {
+            case Font.BOLD:
+                caminhoFonte = "/resources/fonts/Poppins-Bold.ttf";
+                break;
+            default:
+                caminhoFonte = "/resources/fonts/Poppins-Medium.ttf";
+                break;
+        }
+
+        InputStream is = View.class.getResourceAsStream(caminhoFonte);
+        Font fonteBase = Font.createFont(Font.TRUETYPE_FONT, is);
+        return fonteBase.deriveFont(estilo, tamanho);
+
+    } catch (FontFormatException | IOException | NullPointerException e) {
+        e.printStackTrace();
+        return new JLabel().getFont(); // fallback: fonte padrão do Swing
+    }
+}
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(View.class.getName());
 
     /**
@@ -162,11 +276,14 @@ public class View extends javax.swing.JFrame {
         
         
         
-        
-        
-        relatorioTable.getTableHeader().setFont(new Font("Poppins", Font.BOLD, 16));
-        relatorioTable.getTableHeader().setPreferredSize(new Dimension(100, 56));
-        
+        relatorioTable.getTableHeader().setFont(carregarFonte(Font.BOLD, 16));
+        relatorioTable.getTableHeader().setPreferredSize(new Dimension(100, 50));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < relatorioTable.getColumnCount(); i++) {
+            relatorioTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
         
         }
 
@@ -191,6 +308,7 @@ public class View extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldEmail = new javax.swing.JTextField();
@@ -209,8 +327,9 @@ public class View extends javax.swing.JFrame {
         jPanel60 = new javax.swing.JPanel();
         jPanel61 = new javax.swing.JPanel();
         jPanel62 = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
         jPanel63 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jTextFieldEmail2 = new javax.swing.JTextField();
@@ -233,7 +352,6 @@ public class View extends javax.swing.JFrame {
         nameUser = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
         menu = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
@@ -371,21 +489,35 @@ public class View extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setAlignmentX(0.0F);
-        jPanel5.setPreferredSize(new java.awt.Dimension(360, 80));
-        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
+        jPanel5.setPreferredSize(new java.awt.Dimension(360, 100));
+        jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setFont(new java.awt.Font("Poppins", 1, 28)); // NOI18N
+        jLabel2.setFont(carregarFonte(Font.BOLD, 28));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("SGMP");
         jLabel2.setAlignmentX(0.5F);
         jLabel2.setPreferredSize(new java.awt.Dimension(81, 28));
-        jPanel5.add(jLabel2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        jPanel5.add(jLabel2, gridBagConstraints);
 
-        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+        jLabel3.setFont(carregarFonte(Font.PLAIN, 16));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("<html>Sistema de Gerenciamento<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de Manutenção Predial</html>");
+        jLabel3.setText("Sistema de Gerenciamento");
+        jLabel3.setToolTipText("");
         jLabel3.setAlignmentX(0.5F);
-        jPanel5.add(jLabel3);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        jPanel5.add(jLabel3, gridBagConstraints);
+
+        jLabel28.setFont(carregarFonte(Font.PLAIN, 16));
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("de Manutenção Predial");
+        jLabel28.setAlignmentX(0.5F);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        jPanel5.add(jLabel28, gridBagConstraints);
 
         jPanel4.add(jPanel5);
 
@@ -393,7 +525,7 @@ public class View extends javax.swing.JFrame {
         jPanel6.setPreferredSize(new java.awt.Dimension(360, 186));
         jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+        jLabel4.setFont(carregarFonte(Font.PLAIN, 15));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel4.setText("E-mail");
         jLabel4.setFocusable(false);
@@ -401,7 +533,7 @@ public class View extends javax.swing.JFrame {
         jLabel4.setPreferredSize(new java.awt.Dimension(49, 44));
         jPanel6.add(jLabel4);
 
-        jTextFieldEmail.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+        jTextFieldEmail.setFont(carregarFonte(Font.PLAIN, 15));
         jTextFieldEmail.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTextFieldEmail.setAlignmentX(0.0F);
         jTextFieldEmail.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -417,7 +549,7 @@ public class View extends javax.swing.JFrame {
     });
     jPanel6.add(jTextFieldEmail);
 
-    jLabel5.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    jLabel5.setFont(carregarFonte(Font.PLAIN, 15));
     jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jLabel5.setText("Senha");
     jLabel5.setPreferredSize(new java.awt.Dimension(48, 44));
@@ -428,7 +560,7 @@ public class View extends javax.swing.JFrame {
     jPanel9.setPreferredSize(new java.awt.Dimension(360, 20));
     jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.X_AXIS));
 
-    jPasswordFieldSenha.setFont(new java.awt.Font("Poppins", 1, 15)); // NOI18N
+    jPasswordFieldSenha.setFont(carregarFonte(Font.BOLD, 15));
     jPasswordFieldSenha.setToolTipText("");
     jPasswordFieldSenha.setAlignmentX(0.0F);
     jPasswordFieldSenha.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -437,6 +569,11 @@ public class View extends javax.swing.JFrame {
     )
     );
     jPasswordFieldSenha.setPreferredSize(new java.awt.Dimension(135, 20));
+    jPasswordFieldSenha.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jPasswordFieldSenhaActionPerformed(evt);
+        }
+    });
     jPanel9.add(jPasswordFieldSenha);
 
     jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/eye.png"))); // NOI18N
@@ -468,7 +605,7 @@ public class View extends javax.swing.JFrame {
     jPanel7.add(jLabel6);
 
     jButton1.setBackground(new java.awt.Color(60, 137, 166));
-    jButton1.setFont(new java.awt.Font("Poppins", 1, 16)); // NOI18N
+    jButton1.setFont(carregarFonte(Font.BOLD, 16));
     jButton1.setForeground(new java.awt.Color(255, 255, 255));
     jButton1.setText("Entrar");
     jButton1.setAlignmentX(1.0F);
@@ -488,7 +625,7 @@ public class View extends javax.swing.JFrame {
     jPanel7.add(jLabel7);
 
     jButton2.setBackground(new java.awt.Color(60, 137, 166));
-    jButton2.setFont(new java.awt.Font("Poppins", 1, 16)); // NOI18N
+    jButton2.setFont(carregarFonte(Font.BOLD, 16));
     jButton2.setForeground(new java.awt.Color(255, 255, 255));
     jButton2.setText("Cadastrar");
     jButton2.setAlignmentX(1.0F);
@@ -547,29 +684,43 @@ public class View extends javax.swing.JFrame {
 
     jPanel62.setBackground(new java.awt.Color(255, 255, 255));
     jPanel62.setAlignmentX(0.0F);
-    jPanel62.setPreferredSize(new java.awt.Dimension(360, 80));
-    jPanel62.setLayout(new javax.swing.BoxLayout(jPanel62, javax.swing.BoxLayout.Y_AXIS));
+    jPanel62.setPreferredSize(new java.awt.Dimension(360, 40));
+    jPanel62.setLayout(new java.awt.GridBagLayout());
 
-    jLabel23.setFont(new java.awt.Font("Poppins", 1, 28)); // NOI18N
-    jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel23.setText("SGMP");
-    jLabel23.setAlignmentX(0.5F);
-    jLabel23.setPreferredSize(new java.awt.Dimension(81, 28));
-    jPanel62.add(jLabel23);
+    jLabel29.setFont(carregarFonte(Font.PLAIN, 16));
+    jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    jLabel29.setText("Sistema de Gerenciamento");
+    jLabel29.setToolTipText("");
+    jLabel29.setAlignmentX(0.5F);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 2;
+    jPanel62.add(jLabel29, gridBagConstraints);
 
-    jLabel24.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
-    jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    jLabel24.setText("<html>Sistema de Gerenciamento<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;de Manutenção Predial</html>");
-    jLabel24.setAlignmentX(0.5F);
-    jPanel62.add(jLabel24);
+    jLabel32.setFont(carregarFonte(Font.BOLD, 28));
+    jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    jLabel32.setText("SGMP");
+    jLabel32.setAlignmentX(0.5F);
+    jLabel32.setPreferredSize(new java.awt.Dimension(81, 28));
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 1;
+    gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+    jPanel62.add(jLabel32, gridBagConstraints);
+
+    jLabel33.setFont(carregarFonte(Font.PLAIN, 16));
+    jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    jLabel33.setText("de Manutenção Predial");
+    jLabel33.setAlignmentX(0.5F);
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 3;
+    jPanel62.add(jLabel33, gridBagConstraints);
 
     jPanel61.add(jPanel62);
 
     jPanel63.setBackground(new java.awt.Color(255, 255, 255));
-    jPanel63.setPreferredSize(new java.awt.Dimension(360, 180));
+    jPanel63.setPreferredSize(new java.awt.Dimension(360, 210));
     jPanel63.setLayout(new javax.swing.BoxLayout(jPanel63, javax.swing.BoxLayout.Y_AXIS));
 
-    jLabel27.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    jLabel27.setFont(carregarFonte(Font.PLAIN, 15));
     jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
     jLabel27.setText("Nome");
     jLabel27.setFocusable(false);
@@ -577,7 +728,7 @@ public class View extends javax.swing.JFrame {
     jLabel27.setPreferredSize(new java.awt.Dimension(49, 44));
     jPanel63.add(jLabel27);
 
-    jTextFieldEmail2.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    jTextFieldEmail2.setFont(carregarFonte(Font.PLAIN, 15));
     jTextFieldEmail2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
     jTextFieldEmail2.setAlignmentX(0.0F);
     jTextFieldEmail2.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -593,7 +744,7 @@ public class View extends javax.swing.JFrame {
     });
     jPanel63.add(jTextFieldEmail2);
 
-    jLabel25.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    jLabel25.setFont(carregarFonte(Font.PLAIN, 15));
     jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
     jLabel25.setText("E-mail");
     jLabel25.setFocusable(false);
@@ -601,7 +752,7 @@ public class View extends javax.swing.JFrame {
     jLabel25.setPreferredSize(new java.awt.Dimension(49, 44));
     jPanel63.add(jLabel25);
 
-    jTextFieldEmail1.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    jTextFieldEmail1.setFont(carregarFonte(Font.PLAIN, 15));
     jTextFieldEmail1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
     jTextFieldEmail1.setAlignmentX(0.0F);
     jTextFieldEmail1.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -617,7 +768,7 @@ public class View extends javax.swing.JFrame {
     });
     jPanel63.add(jTextFieldEmail1);
 
-    jLabel26.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    jLabel26.setFont(carregarFonte(Font.PLAIN, 15));
     jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     jLabel26.setText("Senha");
     jLabel26.setPreferredSize(new java.awt.Dimension(48, 44));
@@ -628,7 +779,7 @@ public class View extends javax.swing.JFrame {
     jPanel64.setPreferredSize(new java.awt.Dimension(360, 20));
     jPanel64.setLayout(new javax.swing.BoxLayout(jPanel64, javax.swing.BoxLayout.X_AXIS));
 
-    jPasswordFieldSenha1.setFont(new java.awt.Font("Poppins", 1, 15)); // NOI18N
+    jPasswordFieldSenha1.setFont(carregarFonte(Font.BOLD, 15));
     jPasswordFieldSenha1.setToolTipText("");
     jPasswordFieldSenha1.setAlignmentX(0.0F);
     jPasswordFieldSenha1.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -668,7 +819,7 @@ public class View extends javax.swing.JFrame {
     jPanel65.add(jLabel30);
 
     jButton7.setBackground(new java.awt.Color(60, 137, 166));
-    jButton7.setFont(new java.awt.Font("Poppins", 1, 16)); // NOI18N
+    jButton7.setFont(carregarFonte(Font.BOLD, 16));
     jButton7.setForeground(new java.awt.Color(255, 255, 255));
     jButton7.setText("Cadastrar");
     jButton7.setAlignmentX(1.0F);
@@ -688,7 +839,7 @@ public class View extends javax.swing.JFrame {
     jPanel65.add(jLabel31);
 
     jButton8.setBackground(new java.awt.Color(60, 137, 166));
-    jButton8.setFont(new java.awt.Font("Poppins", 1, 16)); // NOI18N
+    jButton8.setFont(carregarFonte(Font.BOLD, 16));
     jButton8.setForeground(new java.awt.Color(255, 255, 255));
     jButton8.setText("Voltar");
     jButton8.setAlignmentX(1.0F);
@@ -715,9 +866,9 @@ public class View extends javax.swing.JFrame {
     jPanel60Layout.setVerticalGroup(
         jPanel60Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel60Layout.createSequentialGroup()
-            .addContainerGap(174, Short.MAX_VALUE)
+            .addContainerGap(173, Short.MAX_VALUE)
             .addComponent(jPanel61, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(169, Short.MAX_VALUE))
+            .addContainerGap(170, Short.MAX_VALUE))
     );
 
     cadastro.add(jPanel60, java.awt.BorderLayout.EAST);
@@ -730,7 +881,7 @@ public class View extends javax.swing.JFrame {
     header.setPreferredSize(new java.awt.Dimension(1440, 64));
     header.setLayout(new java.awt.BorderLayout());
 
-    jLabel8.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel8.setFont(carregarFonte(Font.BOLD, 24));
     jLabel8.setForeground(new java.awt.Color(255, 255, 255));
     jLabel8.setText("SGMP");
     jLabel8.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -744,7 +895,7 @@ public class View extends javax.swing.JFrame {
     jPanel17.setPreferredSize(new java.awt.Dimension(198, 32));
     jPanel17.setLayout(new javax.swing.BoxLayout(jPanel17, javax.swing.BoxLayout.LINE_AXIS));
 
-    nameUser.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    nameUser.setFont(carregarFonte(Font.PLAIN, 12));
     nameUser.setForeground(new java.awt.Color(255, 255, 255));
     nameUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/user-3296.png"))); // NOI18N
     nameUser.setText("  Técnico - Mário");
@@ -770,19 +921,7 @@ public class View extends javax.swing.JFrame {
     });
     jPanel17.add(jButton10);
 
-    jButton13.setBackground(new java.awt.Color(60, 137, 166));
-    jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/notifica.png"))); // NOI18N
-    jButton13.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 6, 6));
-    jButton13.setBorderPainted(false);
-    jButton13.setFocusPainted(false);
-    jButton13.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            jButton13ActionPerformed(evt);
-        }
-    });
-    jPanel17.add(jButton13);
-
-    jPanel1.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, 198, 32));
+    jPanel1.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, 200, 32));
 
     header.add(jPanel1, java.awt.BorderLayout.LINE_END);
 
@@ -802,7 +941,7 @@ public class View extends javax.swing.JFrame {
     jPanel11.setPreferredSize(new java.awt.Dimension(183, 42));
     jPanel11.setLayout(new java.awt.BorderLayout());
 
-    jLabel9.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+    jLabel9.setFont(carregarFonte(Font.BOLD, 14));
     jLabel9.setText("Menu");
     jPanel11.add(jLabel9, java.awt.BorderLayout.LINE_START);
 
@@ -811,12 +950,11 @@ public class View extends javax.swing.JFrame {
     jPanel12.setBackground(new java.awt.Color(255, 255, 255));
     jPanel12.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    ordem_servicoButton.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    ordem_servicoButton.setFont(carregarFonte(Font.BOLD, 12));
     ordem_servicoButton.setForeground(new java.awt.Color(60, 137, 166));
     ordem_servicoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Chart.png"))); // NOI18N
     ordem_servicoButton.setText("  Ordens de Serviço");
     ordem_servicoButton.setBorderPainted(false);
-    ordem_servicoButton.setFocusPainted(false);
     ordem_servicoButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     ordem_servicoButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -840,7 +978,7 @@ public class View extends javax.swing.JFrame {
     jPanel13.setBackground(new java.awt.Color(255, 255, 255));
     jPanel13.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    manutencoesButton.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    manutencoesButton.setFont(carregarFonte(Font.PLAIN, 12));
     manutencoesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Vector.png"))); // NOI18N
     manutencoesButton.setText("  Manutenções");
     manutencoesButton.setBorderPainted(false);
@@ -867,7 +1005,7 @@ public class View extends javax.swing.JFrame {
     jPanel14.setBackground(new java.awt.Color(255, 255, 255));
     jPanel14.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    logButton.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    logButton.setFont(carregarFonte(Font.PLAIN, 12));
     logButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Clock.png"))); // NOI18N
     logButton.setText("  Logs de Sistema");
     logButton.setBorderPainted(false);
@@ -894,7 +1032,7 @@ public class View extends javax.swing.JFrame {
     jPanel15.setBackground(new java.awt.Color(255, 255, 255));
     jPanel15.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    relatoriosButton.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    relatoriosButton.setFont(carregarFonte(Font.PLAIN, 12));
     relatoriosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Document.png"))); // NOI18N
     relatoriosButton.setText("  Relatórios");
     relatoriosButton.setBorderPainted(false);
@@ -921,7 +1059,7 @@ public class View extends javax.swing.JFrame {
     jPanel16.setBackground(new java.awt.Color(255, 255, 255));
     jPanel16.setPreferredSize(new java.awt.Dimension(183, 42));
 
-    ativosButton.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+    ativosButton.setFont(carregarFonte(Font.PLAIN, 12));
     ativosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Box.png"))); // NOI18N
     ativosButton.setText("  Ativos");
     ativosButton.setBorderPainted(false);
@@ -962,18 +1100,20 @@ public class View extends javax.swing.JFrame {
     jPanel22.setLayout(new javax.swing.BoxLayout(jPanel22, javax.swing.BoxLayout.Y_AXIS));
 
     jPanel18.setAlignmentX(0.0F);
-    jPanel18.setPreferredSize(new java.awt.Dimension(1177, 150));
+    jPanel18.setPreferredSize(new java.awt.Dimension(1177, 130));
     jPanel18.setLayout(new java.awt.BorderLayout());
 
     jPanel23.setMinimumSize(new java.awt.Dimension(0, 0));
+    jPanel23.setPreferredSize(new java.awt.Dimension(608, 60));
     jPanel23.setLayout(new java.awt.GridBagLayout());
 
+    jPanel20.setPreferredSize(new java.awt.Dimension(508, 80));
     jPanel20.setLayout(new java.awt.BorderLayout());
 
     jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     jButton4.setBackground(new java.awt.Color(23, 50, 62));
-    jButton4.setFont(new java.awt.Font("Poppins", 1, 11)); // NOI18N
+    jButton4.setFont(carregarFonte(Font.BOLD, 11));
     jButton4.setForeground(new java.awt.Color(255, 255, 255));
     jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Icon.png"))); // NOI18N
     jButton4.setText("Nova O.S");
@@ -986,14 +1126,19 @@ public class View extends javax.swing.JFrame {
 
     jPanel20.add(jPanel24, java.awt.BorderLayout.EAST);
 
+    jPanel8.setMinimumSize(new java.awt.Dimension(400, 32));
+    jPanel8.setPreferredSize(new java.awt.Dimension(400, 32));
     jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.Y_AXIS));
 
-    jLabel11.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel11.setFont(carregarFonte(Font.BOLD, 24));
     jLabel11.setText("Dashboard ");
     jPanel8.add(jLabel11);
 
-    jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel12.setFont(carregarFonte(Font.PLAIN, 13));
     jLabel12.setText("Progresso e organização das ordens de serviço");
+    jLabel12.setMaximumSize(new java.awt.Dimension(1231231, 16));
+    jLabel12.setMinimumSize(new java.awt.Dimension(400, 16));
+    jLabel12.setPreferredSize(new java.awt.Dimension(400, 16));
     jPanel8.add(jLabel12);
 
     jPanel20.add(jPanel8, java.awt.BorderLayout.WEST);
@@ -1001,7 +1146,7 @@ public class View extends javax.swing.JFrame {
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
     gridBagConstraints.weightx = 1.0;
-    gridBagConstraints.insets = new java.awt.Insets(0, 50, 0, 50);
+    gridBagConstraints.insets = new java.awt.Insets(50, 50, 0, 50);
     jPanel23.add(jPanel20, gridBagConstraints);
 
     jPanel18.add(jPanel23, java.awt.BorderLayout.CENTER);
@@ -1013,43 +1158,48 @@ public class View extends javax.swing.JFrame {
     jPanel19.setPreferredSize(new java.awt.Dimension(1177, 200));
     jPanel19.setLayout(new java.awt.GridBagLayout());
 
-    pendenteLabel.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+    pendenteLabel.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
     pendenteLabel.setForeground(new java.awt.Color(255, 255, 255));
     pendenteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/pendentes.png"))); // NOI18N
     pendenteLabel.setText("<html><body style='text-align: center'>0<br>Pendentes");
     pendenteLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
     gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
     gridBagConstraints.gridy = 0;
-    gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 35);
+    gridBagConstraints.insets = new java.awt.Insets(35, 35, 35, 0);
     jPanel19.add(pendenteLabel, gridBagConstraints);
 
-    andamentoLabel.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+    andamentoLabel.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
     andamentoLabel.setForeground(new java.awt.Color(255, 255, 255));
     andamentoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/em_andamento.png"))); // NOI18N
     andamentoLabel.setText("<html><body style='text-align: center'>0<br>Em andamento");
     andamentoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
     gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
     gridBagConstraints.gridy = 0;
-    gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 35);
+    gridBagConstraints.insets = new java.awt.Insets(35, 35, 35, 0);
     jPanel19.add(andamentoLabel, gridBagConstraints);
 
-    finalizadoLabel.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+    finalizadoLabel.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
     finalizadoLabel.setForeground(new java.awt.Color(255, 255, 255));
     finalizadoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/finalizados.png"))); // NOI18N
     finalizadoLabel.setText("<html><body style='text-align: center'>0<br>Finalizadas");
     finalizadoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
     gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 2;
     gridBagConstraints.gridy = 0;
-    gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 35);
+    gridBagConstraints.insets = new java.awt.Insets(35, 35, 35, 0);
     jPanel19.add(finalizadoLabel, gridBagConstraints);
 
-    agendadoLabel.setFont(new java.awt.Font("Poppins Medium", 0, 16)); // NOI18N
+    agendadoLabel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
     agendadoLabel.setForeground(new java.awt.Color(255, 255, 255));
     agendadoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/agendados.png"))); // NOI18N
     agendadoLabel.setText("<html><body style='text-align: center'>0<br>Agendadas");
     agendadoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
     gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 3;
     gridBagConstraints.gridy = 0;
+    gridBagConstraints.insets = new java.awt.Insets(35, 35, 35, 0);
     jPanel19.add(agendadoLabel, gridBagConstraints);
 
     jPanel22.add(jPanel19);
@@ -1060,12 +1210,12 @@ public class View extends javax.swing.JFrame {
 
     jPanel26.setLayout(new javax.swing.BoxLayout(jPanel26, javax.swing.BoxLayout.Y_AXIS));
 
-    jLabel10.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+    jLabel10.setFont(carregarFonte(Font.BOLD, 18));
     jLabel10.setText("Notificações recentes");
     jLabel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 50, 15, 1));
     jPanel26.add(jLabel10);
 
-    jLabel13.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel13.setFont(carregarFonte(Font.PLAIN, 13));
     jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Document.png"))); // NOI18N
     jLabel13.setText("Nenhuma notificação recente");
     jLabel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 50, 1, 1));
@@ -1080,7 +1230,9 @@ public class View extends javax.swing.JFrame {
     jPanel27.setAlignmentX(0.0F);
     jPanel27.setLayout(new java.awt.GridBagLayout());
 
-    OSTable.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    jScrollPane6.setMinimumSize(new java.awt.Dimension(16, 402));
+
+    OSTable.setFont(carregarFonte(Font.PLAIN, 15));
     OSTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
             {"asdfsa", "asdfasdfas", "dasfasdfa", "asdfasdfasd", "asdfasdf", null}
@@ -1098,7 +1250,7 @@ public class View extends javax.swing.JFrame {
         }
     });
     OSTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
-    OSTable.setRowHeight(56);
+    OSTable.setRowHeight(50);
     jScrollPane6.setViewportView(OSTable);
 
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1129,7 +1281,7 @@ public class View extends javax.swing.JFrame {
     manutencoes.setBackground(new java.awt.Color(255, 255, 255));
 
     jPanel28.setMinimumSize(new java.awt.Dimension(0, 66));
-    jPanel28.setPreferredSize(new java.awt.Dimension(500, 1000));
+    jPanel28.setPreferredSize(new java.awt.Dimension(500, 700));
     jPanel28.setLayout(new java.awt.BorderLayout());
 
     jPanel29.setLayout(new javax.swing.BoxLayout(jPanel29, javax.swing.BoxLayout.Y_AXIS));
@@ -1147,7 +1299,7 @@ public class View extends javax.swing.JFrame {
     jPanel33.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     jButton12.setBackground(new java.awt.Color(23, 50, 62));
-    jButton12.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton12.setFont(carregarFonte(Font.BOLD, 12));
     jButton12.setForeground(new java.awt.Color(255, 255, 255));
     jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Icon.png"))); // NOI18N
     jButton12.setText("Nova manutenção");
@@ -1161,23 +1313,31 @@ public class View extends javax.swing.JFrame {
     jPanel33.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 150, 34));
 
     jButton14.setBackground(new java.awt.Color(23, 50, 62));
-    jButton14.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton14.setFont(carregarFonte(Font.BOLD, 12));
     jButton14.setForeground(new java.awt.Color(255, 255, 255));
     jButton14.setText("Exportar PDF");
     jButton14.setBorder(null);
     jButton14.setBorderPainted(false);
+    jButton14.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton14ActionPerformed(evt);
+        }
+    });
     jPanel33.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 109, 35));
 
     jPanel32.add(jPanel33, java.awt.BorderLayout.EAST);
 
+    jPanel34.setMaximumSize(new java.awt.Dimension(2314123, 2134123));
     jPanel34.setLayout(new javax.swing.BoxLayout(jPanel34, javax.swing.BoxLayout.Y_AXIS));
 
-    jLabel14.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel14.setFont(carregarFonte(Font.BOLD, 24));
     jLabel14.setText("Manutenções");
+    jLabel14.setMaximumSize(new java.awt.Dimension(21341, 12341));
     jPanel34.add(jLabel14);
 
-    jLabel15.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel15.setFont(carregarFonte(Font.PLAIN, 13));
     jLabel15.setText("Manutenções registradas");
+    jLabel15.setMaximumSize(new java.awt.Dimension(2311234, 1234123));
     jPanel34.add(jLabel15);
 
     jPanel32.add(jPanel34, java.awt.BorderLayout.WEST);
@@ -1197,7 +1357,7 @@ public class View extends javax.swing.JFrame {
     jPanel38.setAlignmentX(0.0F);
     jPanel38.setLayout(new java.awt.GridBagLayout());
 
-    manutencaoTable.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    manutencaoTable.setFont(carregarFonte(Font.PLAIN, 15));
     manutencaoTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
             {"asdfsa", "asdfasdfas", "asdfasdfas", "asdfasdf", null}
@@ -1215,11 +1375,11 @@ public class View extends javax.swing.JFrame {
         }
     });
     manutencaoTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
-    manutencaoTable.setRowHeight(56);
+    manutencaoTable.setRowHeight(50);
     jScrollPane7.setViewportView(manutencaoTable);
 
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
     gridBagConstraints.weightx = 1.0;
     gridBagConstraints.weighty = 1.0;
@@ -1246,7 +1406,7 @@ public class View extends javax.swing.JFrame {
     historico.setBackground(new java.awt.Color(255, 255, 255));
 
     jPanel35.setMinimumSize(new java.awt.Dimension(0, 66));
-    jPanel35.setPreferredSize(new java.awt.Dimension(500, 1000));
+    jPanel35.setPreferredSize(new java.awt.Dimension(500, 700));
     jPanel35.setLayout(new java.awt.BorderLayout());
 
     jPanel36.setLayout(new javax.swing.BoxLayout(jPanel36, javax.swing.BoxLayout.Y_AXIS));
@@ -1262,12 +1422,14 @@ public class View extends javax.swing.JFrame {
 
     jPanel42.setLayout(new javax.swing.BoxLayout(jPanel42, javax.swing.BoxLayout.Y_AXIS));
 
-    jLabel16.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel16.setFont(carregarFonte(Font.BOLD, 24));
     jLabel16.setText("Logs de sistema");
+    jLabel16.setMaximumSize(new java.awt.Dimension(2131, 12312));
     jPanel42.add(jLabel16);
 
-    jLabel17.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel17.setFont(carregarFonte(Font.PLAIN, 13));
     jLabel17.setText("Logs e histórico de mudanças no sistema");
+    jLabel17.setMaximumSize(new java.awt.Dimension(2132423, 43216));
     jPanel42.add(jLabel17);
 
     jPanel40.add(jPanel42, java.awt.BorderLayout.WEST);
@@ -1287,7 +1449,7 @@ public class View extends javax.swing.JFrame {
     jPanel43.setAlignmentX(0.0F);
     jPanel43.setLayout(new java.awt.GridBagLayout());
 
-    logsTable.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    logsTable.setFont(carregarFonte(Font.PLAIN, 15));
     logsTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
             {"asdfsa", "asdfasdfas", "asdfasdfas", "asdfasdf", null}
@@ -1305,11 +1467,11 @@ public class View extends javax.swing.JFrame {
         }
     });
     logsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
-    logsTable.setRowHeight(56);
+    logsTable.setRowHeight(50);
     jScrollPane8.setViewportView(logsTable);
 
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
     gridBagConstraints.weightx = 1.0;
     gridBagConstraints.weighty = 1.0;
@@ -1336,7 +1498,7 @@ public class View extends javax.swing.JFrame {
     relatorio.setBackground(new java.awt.Color(255, 255, 255));
 
     jPanel41.setMinimumSize(new java.awt.Dimension(0, 66));
-    jPanel41.setPreferredSize(new java.awt.Dimension(500, 1000));
+    jPanel41.setPreferredSize(new java.awt.Dimension(500, 700));
     jPanel41.setLayout(new java.awt.BorderLayout());
 
     jPanel44.setLayout(new javax.swing.BoxLayout(jPanel44, javax.swing.BoxLayout.Y_AXIS));
@@ -1354,31 +1516,43 @@ public class View extends javax.swing.JFrame {
     jPanel48.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     jButton15.setBackground(new java.awt.Color(23, 50, 62));
-    jButton15.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton15.setFont(carregarFonte(Font.BOLD, 12));
     jButton15.setForeground(new java.awt.Color(255, 255, 255));
     jButton15.setText("Exportar CSV");
     jButton15.setBorder(null);
     jButton15.setPreferredSize(new java.awt.Dimension(150, 34));
+    jButton15.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton15ActionPerformed(evt);
+        }
+    });
     jPanel48.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 109, 34));
 
     jButton16.setBackground(new java.awt.Color(23, 50, 62));
-    jButton16.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton16.setFont(carregarFonte(Font.BOLD, 12));
     jButton16.setForeground(new java.awt.Color(255, 255, 255));
     jButton16.setText("Exportar PDF");
     jButton16.setBorder(null);
     jButton16.setBorderPainted(false);
+    jButton16.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            jButton16ActionPerformed(evt);
+        }
+    });
     jPanel48.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 109, 35));
 
     jPanel47.add(jPanel48, java.awt.BorderLayout.EAST);
 
     jPanel49.setLayout(new javax.swing.BoxLayout(jPanel49, javax.swing.BoxLayout.Y_AXIS));
 
-    jLabel18.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel18.setFont(carregarFonte(Font.BOLD, 24));
     jLabel18.setText("Relatórios");
+    jLabel18.setMaximumSize(new java.awt.Dimension(21312, 32116));
     jPanel49.add(jLabel18);
 
-    jLabel19.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel19.setFont(carregarFonte(Font.PLAIN, 13));
     jLabel19.setText("Exportar arquivo em PDF");
+    jLabel19.setMaximumSize(new java.awt.Dimension(13530, 16345));
     jPanel49.add(jLabel19);
 
     jPanel47.add(jPanel49, java.awt.BorderLayout.WEST);
@@ -1398,10 +1572,19 @@ public class View extends javax.swing.JFrame {
     jPanel50.setAlignmentX(0.0F);
     jPanel50.setLayout(new java.awt.GridBagLayout());
 
-    relatorioTable.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    relatorioTable.setFont(carregarFonte(Font.PLAIN, 15));
     relatorioTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
-            {"asdfsa", "asdfasdfas", "asdfasdfas", "asdfasdf"}
+            {"10", "Abril", "2025", "16"},
+            {"9", "Março", "2025", "10"},
+            {"8", "Fevereiro", "2025", "11"},
+            {"7", "Janeiro", "2025", "17"},
+            {"6", "Dezembro", "2024", "9"},
+            {"5", "Novembro", "2024", "17"},
+            {"4", "Outubro", "2024", "20"},
+            {"3", "Setembro", "2024", "14"},
+            {"2", "Agosto", "2024", "13"},
+            {"1", "Julho", "2024", "11"}
         },
         new String [] {
             "ID", "Mês", "Ano", "Total de OS"
@@ -1416,11 +1599,11 @@ public class View extends javax.swing.JFrame {
         }
     });
     relatorioTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
-    relatorioTable.setRowHeight(56);
+    relatorioTable.setRowHeight(50);
     jScrollPane10.setViewportView(relatorioTable);
 
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
     gridBagConstraints.weightx = 1.0;
     gridBagConstraints.weighty = 1.0;
@@ -1445,7 +1628,7 @@ public class View extends javax.swing.JFrame {
     rootDashboard.add(relatorio, "relatorio");
 
     jPanel51.setMinimumSize(new java.awt.Dimension(0, 66));
-    jPanel51.setPreferredSize(new java.awt.Dimension(500, 1000));
+    jPanel51.setPreferredSize(new java.awt.Dimension(500, 700));
     jPanel51.setLayout(new java.awt.BorderLayout());
 
     jPanel52.setLayout(new javax.swing.BoxLayout(jPanel52, javax.swing.BoxLayout.Y_AXIS));
@@ -1463,7 +1646,7 @@ public class View extends javax.swing.JFrame {
     jPanel56.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     jButton17.setBackground(new java.awt.Color(23, 50, 62));
-    jButton17.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+    jButton17.setFont(carregarFonte(Font.BOLD, 12));
     jButton17.setForeground(new java.awt.Color(255, 255, 255));
     jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Icon.png"))); // NOI18N
     jButton17.setText("Novo ativo");
@@ -1480,13 +1663,15 @@ public class View extends javax.swing.JFrame {
 
     jPanel57.setLayout(new javax.swing.BoxLayout(jPanel57, javax.swing.BoxLayout.Y_AXIS));
 
-    jLabel20.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+    jLabel20.setFont(carregarFonte(Font.BOLD, 24));
     jLabel20.setText("Ativos");
+    jLabel20.setMaximumSize(new java.awt.Dimension(32343, 1236));
     jPanel57.add(jLabel20);
     jPanel57.add(jTabbedPane1);
 
-    jLabel21.setFont(new java.awt.Font("Poppins Medium", 0, 13)); // NOI18N
+    jLabel21.setFont(carregarFonte(Font.PLAIN, 13));
     jLabel21.setText("Ativos cadastrados");
+    jLabel21.setMaximumSize(new java.awt.Dimension(9219, 12316));
     jPanel57.add(jLabel21);
 
     jPanel55.add(jPanel57, java.awt.BorderLayout.WEST);
@@ -1506,7 +1691,7 @@ public class View extends javax.swing.JFrame {
     jPanel58.setAlignmentX(0.0F);
     jPanel58.setLayout(new java.awt.GridBagLayout());
 
-    ativoTable.setFont(new java.awt.Font("Poppins Medium", 0, 15)); // NOI18N
+    ativoTable.setFont(carregarFonte(Font.PLAIN, 15));
     ativoTable.setModel(new javax.swing.table.DefaultTableModel(
         new Object [][] {
             {"asdfsa", "asdfasdfas", "asdfasdfas", "asdfasdf", null}
@@ -1524,11 +1709,11 @@ public class View extends javax.swing.JFrame {
         }
     });
     ativoTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
-    ativoTable.setRowHeight(56);
+    ativoTable.setRowHeight(50);
     jScrollPane12.setViewportView(ativoTable);
 
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
     gridBagConstraints.weightx = 1.0;
     gridBagConstraints.weighty = 1.0;
@@ -1595,6 +1780,7 @@ public class View extends javax.swing.JFrame {
                 CardLayout card = (CardLayout) root.getLayout();
                 card.show(root, "dashboard");
                 nameUser.setText("Técnico - "+loggedIn.getNome());
+                logged = loggedIn;
                 
                 updateOS();
                 
@@ -1625,7 +1811,7 @@ public class View extends javax.swing.JFrame {
         card.show(rootDashboard, "ordem_servico");
         
         updateMenu();
-        ordem_servicoButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        ordem_servicoButton.setFont(carregarFonte(Font.BOLD, 12));
         ordem_servicoButton.setForeground(new Color(60,137,166));
         ordem_servicoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/Chart.png")));
         
@@ -1637,7 +1823,7 @@ public class View extends javax.swing.JFrame {
         card.show(rootDashboard, "manutencoes");
         
         updateMenu();
-        manutencoesButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        manutencoesButton.setFont(carregarFonte(Font.BOLD, 12));
         manutencoesButton.setForeground(new Color(60,137,166));
         manutencoesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/predioBlue.png")));
         
@@ -1645,10 +1831,69 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_manutencoesButtonActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-        if(evt.getComponent().getWidth() < 800){
+        if(evt.getComponent().getWidth() < 1250){
+            jPanel25.setPreferredSize(new Dimension(500, 1300));
+            jPanel19.setPreferredSize(new Dimension(1177, 400));
+            
+            jPanel19.remove(finalizadoLabel);
+
+            GridBagConstraints novoGbc = new GridBagConstraints();
+            novoGbc.gridx = 0;
+            novoGbc.gridy = 1; // Nova linha
+            novoGbc.insets = new Insets(35, 35, 35, 0);
+
+            jPanel19.add(finalizadoLabel, novoGbc);
+            jPanel19.revalidate();
+            jPanel19.repaint();
+            
+            jPanel19.remove(agendadoLabel);
+
+            novoGbc.gridx = 1;
+            novoGbc.gridy = 1; // Nova linha
+
+            jPanel19.add(agendadoLabel, novoGbc);
+            jPanel19.revalidate();
+            jPanel19.repaint();
+        }
+        else{
+            jPanel25.setPreferredSize(new Dimension(500, 1000));
+            jPanel19.setPreferredSize(new Dimension(1177, 200));
+            
+            jPanel19.remove(finalizadoLabel);
+
+            GridBagConstraints novoGbc = new GridBagConstraints();
+            novoGbc.gridx = 2;
+            novoGbc.gridy = 0; // Nova linha
+            novoGbc.insets = new Insets(35, 35, 35, 0);
+
+            jPanel19.add(finalizadoLabel, novoGbc);
+            jPanel19.revalidate();
+            jPanel19.repaint();
+            
+            jPanel19.remove(agendadoLabel);
+
+            novoGbc.gridx = 3;
+            novoGbc.gridy = 0; // Nova linha
+
+            jPanel19.add(agendadoLabel, novoGbc);
+            jPanel19.revalidate();
+            jPanel19.repaint();
+        }
+        if(evt.getComponent().getWidth() < 850){
             menu.setPreferredSize(new Dimension(43, 746));
+            menu.remove(jPanel10); // remover do layout
+            menu.add(jPanel10, new AbsoluteConstraints(0, 10, 220, 300));
+            menu.revalidate();
+            menu.repaint();
+            ordem_servicoButton.setText("   Ordens de Serviço");
         } else{
             menu.setPreferredSize(new Dimension(263, 746));
+            menu.remove(jPanel10); // remover do layout
+            menu.add(jPanel10, new AbsoluteConstraints(20, 10, 220, 300));
+            menu.revalidate();
+            menu.repaint();
+            ordem_servicoButton.setText("  Ordens de Serviço");
+            
         }
     }//GEN-LAST:event_formComponentResized
 
@@ -1657,7 +1902,7 @@ public class View extends javax.swing.JFrame {
         card.show(rootDashboard, "historico");
         
         updateMenu();
-        logButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        logButton.setFont(carregarFonte(Font.BOLD, 12));
         logButton.setForeground(new Color(60,137,166));
         logButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/ClockBlue.png")));
         
@@ -1669,7 +1914,7 @@ public class View extends javax.swing.JFrame {
         card.show(rootDashboard, "relatorio");
         
         updateMenu();
-        relatoriosButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        relatoriosButton.setFont(carregarFonte(Font.BOLD, 12));
         relatoriosButton.setForeground(new Color(60,137,166));
         relatoriosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/DocumentBlue.png")));
     }//GEN-LAST:event_relatoriosButtonActionPerformed
@@ -1679,7 +1924,7 @@ public class View extends javax.swing.JFrame {
         card.show(rootDashboard, "ativo");
         
         updateMenu();
-        ativosButton.setFont(new Font("Poppins", Font.BOLD, 12));
+        ativosButton.setFont(carregarFonte(Font.BOLD, 12));
         ativosButton.setForeground(new Color(60,137,166));
         ativosButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/BoxBlue.png")));
         
@@ -1690,21 +1935,17 @@ public class View extends javax.swing.JFrame {
         GlassPanePopup.showPopup(new Notificacao());
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Forms formulario = new Forms();
+        OSForms formulario = new OSForms(logged);
         GlassPanePopup.showPopup(formulario);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        GlassPanePopup.showPopup(new AtivoForms());
+        GlassPanePopup.showPopup(new AtivoForms(logged));
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        GlassPanePopup.showPopup(new ManutencaoForms());
+        GlassPanePopup.showPopup(new ManutencaoForms(logged));
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jTextFieldEmail1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmail1ActionPerformed
@@ -1749,6 +1990,22 @@ public class View extends javax.swing.JFrame {
         card.show(root, "login");
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        exportToPDF(manutencaoTable);
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        exportToPDF(relatorioTable);
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        exportToCSV(relatorioTable);
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jPasswordFieldSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordFieldSenhaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1784,7 +2041,6 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
@@ -1812,14 +2068,16 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

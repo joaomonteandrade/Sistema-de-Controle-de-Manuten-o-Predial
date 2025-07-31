@@ -4,6 +4,7 @@
  */
 package br.com.loggers.model;
 import br.com.loggers.controller.Ativo;
+import br.com.loggers.controller.Log;
 import br.com.loggers.controller.Manutencao;
 import br.com.loggers.controller.OS;
 import br.com.loggers.controller.User;
@@ -62,7 +63,6 @@ public class DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(count);
         return count;
     }
     public int countAndamento() {
@@ -77,7 +77,6 @@ public class DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(count);
         return count;
     }
     
@@ -94,7 +93,6 @@ public class DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(count);
         return count;
     }
     
@@ -110,7 +108,6 @@ public class DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(count);
         return count;
     }
     
@@ -280,6 +277,26 @@ public class DAO {
         return id_local;
     }
     
+    public int getOSId(String nome){
+        int idOS = 0;
+
+        try (Connection conn = new Connect().conectar();
+             PreparedStatement stmt = conn.prepareStatement("SELECT id_ordem_servico FROM ordem_servico WHERE titulo = ?");) {
+
+            stmt.setString(1, nome); 
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                idOS = rs.getInt("id_ordem_servico");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Or use logging
+        }
+
+        return idOS;
+    }
+    
+    
     public boolean insertOS(OS ordem) {
         String sql = "insert into ordem_servico(titulo, tecnico, prazo, urgencia, status, descricao, local_id_local) values (?, ?, ?, ?, ?, ?, ?)";
 
@@ -310,7 +327,6 @@ public class DAO {
             stmt.setInt(5, ativo.getLocal_id_local());
             stmt.setInt(6, ativo.getTipo_ativo_id_tipo_ativo());
             stmt.setInt(7, ativo.getPeriodicidade_id_periodicidade());
-            System.out.println(ativo.getPeriodicidade_id_periodicidade());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -327,6 +343,61 @@ public class DAO {
             stmt.setInt(2, manutencao.getOrdem_servico_id_ordem_servico());
             stmt.setInt(3, manutencao.getLocal_id_local());
             stmt.setInt(4, manutencao.getPeriodicidade_id_periodicidade());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean insertLog(Log log) {
+        String sql = "insert into log(data, hora, tipo, descricao, tipo_log_id_tipo_log, usuario_id_usuario) values (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = new Connect().conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDate(1, java.sql.Date.valueOf(log.getData()));
+            stmt.setTime(2, java.sql.Time.valueOf(log.getHora()));
+            stmt.setInt(3, log.getTipo());
+            stmt.setString(4, log.getDescricao());
+            stmt.setInt(5, log.getTipo_log_id_tipo_log());
+            stmt.setInt(6, log.getUsuario_id_usuario());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean insertLogOS(Log log) {
+        String sql = "insert into log(data, hora, tipo, descricao, tipo_log_id_tipo_log, usuario_id_usuario, ordem_servico_id_ordem_servico) values (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = new Connect().conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDate(1, java.sql.Date.valueOf(log.getData()));
+            stmt.setTime(2, java.sql.Time.valueOf(log.getHora()));
+            stmt.setInt(3, log.getTipo());
+            stmt.setString(4, log.getDescricao());
+            stmt.setInt(5, log.getTipo_log_id_tipo_log());
+            stmt.setInt(6, log.getUsuario_id_usuario());
+            stmt.setInt(7, log.getOrdem_servico_id_ordem_servico());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean insertLogManut(Log log) {
+        String sql = "insert into log(data, hora, tipo, descricao, tipo_log_id_tipo_log, usuario_id_usuario, manutencao_id_manutencao) values (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = new Connect().conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDate(1, java.sql.Date.valueOf(log.getData()));
+            stmt.setTime(2, java.sql.Time.valueOf(log.getHora()));
+            stmt.setInt(3, log.getTipo());
+            stmt.setString(4, log.getDescricao());
+            stmt.setInt(5, log.getTipo_log_id_tipo_log());
+            stmt.setInt(6, log.getUsuario_id_usuario());
+            stmt.setInt(7, log.getManutencao_id_manutencao());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -437,7 +508,7 @@ public class DAO {
     public DefaultTableModel getAtivoTable() {
         DefaultTableModel model = new DefaultTableModel();
 
-        String sql = "SELECT a.id_ativos AS ID, a.modelo_ativo AS Nome, ta.nome_tipo_ativo AS Tipo, l.nome AS Localização, a.ultima_manutencao FROM ativos a JOIN tipo_ativo ta ON a.tipo_ativo_id_tipo_ativo = ta.id_tipo_ativo JOIN local l ON a.local_id_local = l.id_local ORDER BY a.id_ativos DESC LIMIT 10;";
+        String sql = "SELECT a.id_ativos AS ID, a.modelo_ativo AS Nome, ta.nome_tipo_ativo AS Tipo, l.nome AS Localização, a.ultima_manutencao AS \"Última manut.\" FROM ativos a JOIN tipo_ativo ta ON a.tipo_ativo_id_tipo_ativo = ta.id_tipo_ativo JOIN local l ON a.local_id_local = l.id_local ORDER BY a.id_ativos DESC LIMIT 10;";
 
         try (Connection conn = new Connect().conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
